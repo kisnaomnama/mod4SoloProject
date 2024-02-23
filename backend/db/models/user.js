@@ -41,24 +41,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    { // options object 
-      defaultScope: {
-        // Define default scope details here
-        exclude: ['hashedPassword']
-      },
-      scopes: {
-        [scopeName1]: {
-          // define scope 1 details here
-        },
-        [scopeName2]: {
-          // define scope 2 details here
-        },
-      }
-    },
     {
       sequelize,
-      modelName: 'User'
-    }
+      modelName: 'User',
+      defaultScope: {
+        attributes: {
+          // Define default scope details here
+          exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
+        }
+      },
+    },
   );
   return User;
 };
