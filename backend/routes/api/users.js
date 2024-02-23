@@ -10,6 +10,14 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const validateSignup = [
+  check('firstName')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 2 })
+    .withMessage('Please provide a valid first name.'),
+  check('lastName')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 2 })
+    .withMessage('Please provide a valid last name.'),
   check('email')
     .exists({ checkFalsy: true })
     .isEmail()
@@ -31,22 +39,24 @@ const validateSignup = [
 
 // Sign up
 router.post('/', validateSignup, async (req, res) => {
-    const { email, password, username } = req.body;
-    const hashedPassword = bcrypt.hashSync(password);
-    const user = await User.create({ email, username, hashedPassword });
+  const { firstName, lastName, email, password, username } = req.body;
+  const hashedPassword = bcrypt.hashSync(password);
+  const user = await User.create({ firstName, lastName, email, username, hashedPassword });
 
-    const safeUser = {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-    };
+  const safeUser = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    id: user.id,
+    email: user.email,
+    username: user.username,
+  };
 
-    await setTokenCookie(res, safeUser);
+  await setTokenCookie(res, safeUser);
 
-    return res.json({
-      user: safeUser
-    });
-  }
+  return res.json({
+    user: safeUser
+  });
+}
 );
 
 

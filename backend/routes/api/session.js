@@ -27,6 +27,8 @@ router.get('/', (req, res) => {
       if (user) {
         const safeUser = {
           id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
           username: user.username,
         };
@@ -38,9 +40,7 @@ router.get('/', (req, res) => {
   );
 
 // Log in
-router.post(
-  '/',
-  validateLogin,
+router.post('/', validateLogin,
   async (req, res, next) => {
     const { credential, password } = req.body;
 
@@ -63,6 +63,8 @@ router.post(
 
     const safeUser = {
       id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       username: user.username,
     };
@@ -77,9 +79,7 @@ router.post(
 
 
   // Log out
-router.delete(
-    '/',
-    (_req, res) => {
+router.delete('/', (_req, res) => {
       res.clearCookie('token');
       return res.json({ message: 'success' });
     }
