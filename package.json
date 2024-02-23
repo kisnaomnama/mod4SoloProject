@@ -12,11 +12,6 @@
     "build": "npm run --prefix backend build"
   },
 
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kisnaomnama/mod4SoloProject.git"
-  },
-
   "keywords": [],
   "author": "",
   "license": "ISC"
