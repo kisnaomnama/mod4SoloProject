@@ -1,4 +1,5 @@
 'use strict';
+/** @type {import('sequelize-cli').Migration} */
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -7,34 +8,49 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Spots', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
+      ownerId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
-      lastName: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
+      address: {
+        type: Sequelize.STRING
       },
-      username: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
-        unique: true
+      city: {
+        type: Sequelize.STRING
       },
-      email: {
-        type: Sequelize.STRING(256),
-        allowNull: false,
-        unique: true
+      state: {
+        type: Sequelize.STRING
       },
-      hashedPassword: {
-        type: Sequelize.STRING.BINARY,
+      country: {
+        type: Sequelize.STRING
+      },
+      lat: {
+        type: Sequelize.DECIMAL
+      },
+      lng: {
+        type: Sequelize.DECIMAL
+      },
+      name: {
+        type: Sequelize.STRING,
         allowNull: false
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      price: {
+        type: Sequelize.DECIMAL
       },
       createdAt: {
         allowNull: false,
@@ -48,9 +64,8 @@ module.exports = {
       }
     }, options);
   },
-
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Users';
+    options.tableName = "Spots";
     await queryInterface.dropTable(options);
   }
 };
