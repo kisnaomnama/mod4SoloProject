@@ -11,8 +11,10 @@
     "start": "npm start --prefix backend",
     "build": "npm run --prefix backend build"
   },
-
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^3.3.1"
+  }
 }
