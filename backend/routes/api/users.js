@@ -51,6 +51,22 @@ router.post('/', validateSignup, async (req, res) => {
     username: user.username,
   };
 
+
+
+
+// const apiRouter = require('./api');
+
+
+// router.use('/users', apiRouter);
+
+
+// router.get('/dd', async (req,res) => {
+//   console.log(".....HIT THAT")
+//   res.json("hello")
+//     // const allUsers = await User.findAll()
+//     // res.json({allUsers})
+//   })
+
   await setTokenCookie(res, safeUser);
 
   return res.json({

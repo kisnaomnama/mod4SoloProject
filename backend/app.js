@@ -17,9 +17,13 @@ const { ValidationError } = require('sequelize');
 
 const app = express();
 
+
+
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
+
+
 
 // backend/app.js
 
@@ -29,6 +33,7 @@ if (!isProduction) {
     // enable cors only in development
     app.use(cors());
 }
+
 
 
 // helmet helps set a variety of headers to better secure your app
@@ -51,6 +56,12 @@ app.use(
 
 
 app.use(routes); // Connect all the routes
+
+
+// const userRouter  = require('./routes/api')
+
+// app.use('/users', routes)
+
 
 // backend/app.js
 // ...
