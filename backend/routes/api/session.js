@@ -14,30 +14,30 @@ const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
+    .withMessage("Email or username is required"),
   check('password')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
+    .withMessage("Password is required"),
   handleValidationErrors
 ];
 
 
 router.get('/', (req, res) => {
-      const { user } = req;
-      if (user) {
-        const safeUser = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          username: user.username,
-        };
-        return res.json({
-          user: safeUser
-        });
-      } else return res.json({ user: null });
-    }
-  );
+  const { user } = req;
+  if (user) {
+    const safeUser = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+    };
+    return res.json({
+      user: safeUser
+    });
+  } else return res.json({ user: null });
+}
+);
 
 // Log in
 router.post('/', validateLogin,
@@ -54,11 +54,12 @@ router.post('/', validateLogin,
     });
 
     if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-      const err = new Error('Login failed');
-      err.status = 401;
-      err.title = 'Login failed';
-      err.errors = { credential: 'The provided credentials were invalid.' };
-      return next(err);
+      // const err = new Error('Login failed');
+      // err.status = 401;
+      res.status(401)
+      return res.json({
+        message: "Invalid credentials"
+      })
     }
 
     const safeUser = {
@@ -78,11 +79,11 @@ router.post('/', validateLogin,
 );
 
 
-  // Log out
+// Log out
 router.delete('/', (_req, res) => {
-      res.clearCookie('token');
-      return res.json({ message: 'success' });
-    }
-  );
+  res.clearCookie('token');
+  return res.json({ message: 'success' });
+}
+);
 
 module.exports = router;
