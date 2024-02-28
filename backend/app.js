@@ -10,22 +10,13 @@ const routes = require('./routes');
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';
-
 const { ValidationError } = require('sequelize');
 
-
-
 const app = express();
-
-
 
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
-
-
-
-// backend/app.js
 
 
 // Security Middleware
@@ -33,8 +24,6 @@ if (!isProduction) {
     // enable cors only in development
     app.use(cors());
 }
-
-
 
 // helmet helps set a variety of headers to better secure your app
 app.use(
@@ -54,17 +43,8 @@ app.use(
     })
 );
 
-
 app.use(routes); // Connect all the routes
 
-
-// const userRouter  = require('./routes/api')
-
-// app.use('/users', routes)
-
-
-// backend/app.js
-// ...
 // Catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
     const err = new Error("The requested resource couldn't be found.");
@@ -89,6 +69,7 @@ app.use((err, _req, _res, next) => {
     next(err);
 });
 
+// Responce for Errors
 app.use((err, _req, res, _next) => {
     res.status(err.status || 500);
     console.error(err);
