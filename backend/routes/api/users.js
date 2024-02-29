@@ -10,26 +10,26 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const validateSignup = [
-  check('firstName')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 2 })
-    .withMessage('Please provide a valid first name.'),
-  check('lastName')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 2 })
-    .withMessage('Please provide a valid last name.'),
   check('email')
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage('Please provide a valid email.'),
+    .withMessage('Invalid email'),
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
+    .withMessage("Username is required"),
   check('username')
     .not()
     .isEmail()
-    .withMessage('Username cannot be an email.'),
+    .withMessage('Username is required'),
+  check('firstName')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 2 })
+    .withMessage("First Name is required"),
+  check('lastName')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 2 })
+    .withMessage("Last Name is required"),
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
@@ -37,35 +37,49 @@ const validateSignup = [
   handleValidationErrors
 ];
 
+
+const validateEmail = async (req, res, next) => {
+  const { email } = req.body
+  const foundOne = await User.findOne({ where: { email: email } })
+  if (foundOne) {
+    const err = new Error()
+    err.message = 'User already exists'
+    err.errors = {
+      "email": "User with that email already exists"
+    }
+    next(err)
+  }
+  next()
+}
+
+const validateUserName = async (req, res, next) => {
+  const { username } = req.body
+  const foundOne = await User.findOne({ where: { username: username } })
+  if (foundOne) {
+    const err = new Error()
+    err.message = 'User already exists'
+    err.errors = {
+      "username": "User with that email already exists"
+    }
+    next(err)
+  }
+  next()
+}
+
 // Sign up
-router.post('/', validateSignup, async (req, res) => {
+router.post('/', validateSignup, validateEmail, validateUserName, async (req, res, next) => {
   const { firstName, lastName, email, password, username } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
+
   const user = await User.create({ firstName, lastName, email, username, hashedPassword });
 
   const safeUser = {
+    id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
-    id: user.id,
     email: user.email,
     username: user.username,
   };
-
-
-
-
-// const apiRouter = require('./api');
-
-
-// router.use('/users', apiRouter);
-
-
-// router.get('/dd', async (req,res) => {
-//   console.log(".....HIT THAT")
-//   res.json("hello")
-//     // const allUsers = await User.findAll()
-//     // res.json({allUsers})
-//   })
 
   await setTokenCookie(res, safeUser);
 
@@ -74,6 +88,5 @@ router.post('/', validateSignup, async (req, res) => {
   });
 }
 );
-
 
 module.exports = router;

@@ -21,11 +21,13 @@ module.exports = {
           model: 'Reviews',
           key: 'id'
         },
+        allowNull: false,
         onDelete: 'CASCADE'
 
       },
       url: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
