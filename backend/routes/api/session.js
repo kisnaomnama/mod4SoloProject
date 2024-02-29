@@ -62,6 +62,14 @@ router.post('/', validateLogin,
       })
     }
 
+    // if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+    //   const err = new Error("Login failed");
+    //   err.status = 401;
+    //   err.title = "Login failed";
+    //   err.errors = { credential: "The provided credentials were invalid." };
+    //   return next(err);
+    // }
+
     const safeUser = {
       id: user.id,
       firstName: user.firstName,
