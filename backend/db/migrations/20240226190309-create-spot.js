@@ -21,6 +21,7 @@ module.exports = {
           model: 'Users',
           key: 'id'
         },
+        allowNull:false,
         onDelete: 'CASCADE'
       },
       address: {
@@ -36,10 +37,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       lat: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
       },
       lng: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
       },
       name: {
         type: Sequelize.STRING,
@@ -50,7 +51,7 @@ module.exports = {
         allowNull: false
       },
       price: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.FLOAT
       },
       createdAt: {
         allowNull: false,
