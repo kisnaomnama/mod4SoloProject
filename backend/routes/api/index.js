@@ -3,6 +3,7 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spot.js')
+const reviewsRouter = require('./reviews')
 const { setTokenCookie } = require('../../utils/auth.js');
 const { User } = require('../../db/models');
 const { restoreUser } = require('../../utils/auth.js');
@@ -13,7 +14,6 @@ router.post('/test', function (req, res) {
 });
 
 // GET /api/set-token-cookie
-
 router.get('/set-token-cookie', async (_req, res) => {
     const user = await User.findOne({
         where: {
@@ -40,12 +40,10 @@ router.get('/require-auth', requireAuth, (req, res) => {
 
 
 router.use(restoreUser);
-
 router.use('/session', sessionRouter);
-
 router.use('/users', usersRouter);
-
 router.use('/spots', spotsRouter);
+router.use('/reviews', reviewsRouter);
 
 
 
