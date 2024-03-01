@@ -16,8 +16,8 @@ module.exports = {
       {
         spotId: 1,
         userId: 3,
-        startDate: addDays(currentDate, 4), 
-        endDate: addDays(currentDate, 8), // Add 4 days to the current date
+        startDate: addDays(currentDate, 2), 
+        endDate: addDays(currentDate, 4), // Add 4 days to the current date
       },
       {
         spotId: 2,

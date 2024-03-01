@@ -27,22 +27,22 @@ module.exports = {
       },
       {
         spotId: 2,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image4.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image5.jpg',
         preview: true
       },
       {
         spotId: 4,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image6.jpg',
         preview: true
       },
       {
         spotId: 5,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image7.jpg',
         preview: true
       }
     ];

@@ -25,19 +25,19 @@ module.exports = {
       },
       {
         reviewId: 2,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image4.jpg',
       },
       {
         reviewId: 3,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image5.jpg',
       },
       {
         reviewId: 4,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image6.jpg',
       },
       {
         reviewId: 5,
-        url: 'https://example.com/image3.jpg',
+        url: 'https://example.com/image7.jpg',
       }
     ];
 
