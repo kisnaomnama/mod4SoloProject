@@ -19,7 +19,6 @@ const validateReview = [
 
 const router = express.Router();
 
-
 //Get all Reviews of the Current User
 router.get('/current', requireAuth, async (req, res) => {
     const allReviews = await Review.findAll({
@@ -93,7 +92,6 @@ router.put('/:reviewId', requireAuth, validateReview, handleValidationErrors, as
         res.status(403)
         return res.json({ message: "Forbidden" })
     }
-    
 
     oldReview.review = review;
     oldReview.stars = stars;

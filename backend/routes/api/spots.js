@@ -7,7 +7,9 @@ const { User, Spot, Review, SpotImage, ReviewImage } = require('../../db/models'
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { route } = require('./reviews');
+// 
+
+
 // const { resource } = require('../../app');
 
 const router = express.Router();
@@ -336,6 +338,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, handleValidationErr
             userId: userId
         }
     })
+    
     if(oldReview){
         res.status(500)
         return res.json({ message: "User already has a review for this spot" })
@@ -352,7 +355,5 @@ router.post('/:spotId/reviews', requireAuth, validateReview, handleValidationErr
     res.status(201)
     return res.json(newReview)
 })
-
-
 
 module.exports = router;

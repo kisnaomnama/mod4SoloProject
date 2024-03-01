@@ -22,6 +22,22 @@ module.exports = {
       {
         reviewId: 3,
         url: 'https://example.com/image3.jpg',
+      },
+      {
+        reviewId: 2,
+        url: 'https://example.com/image3.jpg',
+      },
+      {
+        reviewId: 3,
+        url: 'https://example.com/image3.jpg',
+      },
+      {
+        reviewId: 4,
+        url: 'https://example.com/image3.jpg',
+      },
+      {
+        reviewId: 5,
+        url: 'https://example.com/image3.jpg',
       }
     ];
 

@@ -15,22 +15,36 @@ module.exports = {
     const bookingsData = [
       {
         spotId: 1,
-        userId: 1,
-        startDate: subDays(currentDate, 1), // Subtract 1 day from the current date
-        endDate: addDays(currentDate, 4), // Add 4 days to the current date
+        userId: 3,
+        startDate: addDays(currentDate, 4), 
+        endDate: addDays(currentDate, 8), // Add 4 days to the current date
       },
       {
         spotId: 2,
-        userId: 2,
-        startDate: addDays(currentDate, 2), 
-        endDate: addDays(currentDate, 6), 
+        userId: 1,
+        startDate: addDays(currentDate, 5), 
+        endDate: addDays(currentDate, 7), 
       },
       {
         spotId: 3,
-        userId: 3,
-        startDate: addDays(currentDate, 5), 
+        userId: 4,
+        startDate: addDays(currentDate, 7), 
         endDate: addDays(currentDate, 10), 
-      }
+      },
+
+      {
+        spotId: 4,
+        userId: 1,
+        startDate: addDays(currentDate, 8), 
+        endDate: addDays(currentDate, 11), 
+      },
+
+      {
+        spotId: 1,
+        userId: 5,
+        startDate: addDays(currentDate, 6), 
+        endDate: addDays(currentDate, 8), 
+      },
     ];
 
     await Booking.bulkCreate( bookingsData, {validate: true});
