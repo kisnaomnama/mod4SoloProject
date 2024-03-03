@@ -78,6 +78,7 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
     }
 
     const bookingEndDate = new Date(booking.endDate).toISOString();
+    // const bookingStartDate = new Date(booking.startDate).toISOString();
     const currentDate = new Date().toISOString();
 
     // console.log('booking.endDate.......', bookingEndDate);
@@ -90,34 +91,34 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
 
     const spotId = parseInt(booking.spotId)
 
-    const bookedSpots = await Booking.findAll({
+    const bookedSpot = await Booking.findOne({
         where: {
+            id: { [Op.ne]: bookingId },
             spotId: spotId,
-            [Op.or]: [
-                { startDate: { [Op.between]: [startDate, endDate] } },
-                { endDate: { [Op.between]: [startDate, endDate] } }
-            ]
+            startDate: { [Op.lte]: new Date(endDate).toDateString() },
+            endDate: { [Op.gte]: new Date(startDate).toDateString() }
         }
     })
 
-    if (bookedSpots.length > 0) {
+    if (bookedSpot) {
         const err = new Error("Existing bookings found")
-        res.status(400)
         err.message = "Sorry, this spot is already booked for the specified dates"
         err.errors = {
             "startDate": "Start date conflicts with an existing booking",
             "endDate": "End date conflicts with an existing booking"
         }
+        res.status(400)
         return next(err)
     }
 
-    booking.startDate = startDate || booking.startDate
-    booking.endDate = endDate || booking.endDate
+    booking.startDate = startDate 
+    booking.endDate = endDate 
 
     await booking.save()
 
     res.json(booking)
 });
+
 
 
 //Delete a Booking --> URL: /api/bookings/:bookingId
