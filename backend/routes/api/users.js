@@ -47,6 +47,7 @@ const validateEmail = async (req, res, next) => {
     err.errors = {
       "email": "User with that email already exists"
     }
+    res.status(500)
     next(err)
   }
   next()
@@ -59,8 +60,9 @@ const validateUserName = async (req, res, next) => {
     const err = new Error()
     err.message = 'User already exists'
     err.errors = {
-      "username": "User with that email already exists"
+      "username": "User with that namename already exists"
     }
+    res.status(500)
     next(err)
   }
   next()
