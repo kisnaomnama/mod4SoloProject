@@ -59,7 +59,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 //Edit a Booking --> URL: /api/bookings/:bookingId
-router.put('/:bookingId', requireAuth, validateStartEndDates, requireAuth, async (req, res) => {
+router.put('/:bookingId',requireAuth, validateStartEndDates,async (req, res) => {
     const { startDate, endDate } = req.body;
     const bookingId = parseInt(req.params.bookingId);
     const userId = req.user.id;
