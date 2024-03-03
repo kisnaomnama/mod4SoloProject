@@ -44,7 +44,7 @@ router.get('/current', requireAuth, async (req, res) => {
         include: [
             {
                 model: User,
-                attributes: ['id', 'firstname', 'lastName']
+                attributes: ['id', 'firstName', 'lastName']
             },
             {
                 model: Spot,

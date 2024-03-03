@@ -114,6 +114,7 @@ const validateQuery = [
         .optional()
         .isFloat({ min: 0 })
         .withMessage('Minimum price must be greater than or equal to 0'),
+
     handleValidationErrors
 ]
 
@@ -140,7 +141,7 @@ const getSpotImagePreview = async (spotId) => {
 
 
 //Get all Spots --> URL: /api/spots
-router.get('/', validateQuery, async (req, res) => {
+router.get('/',validateQuery, async (req, res) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
     page = parseInt(page) || 1;
@@ -213,7 +214,6 @@ router.get('/', validateQuery, async (req, res) => {
             page,
             size
         });
-  
 });
 
 //Get all Spots owned by the Current User --> URL: /api/spots/current
@@ -251,8 +251,9 @@ router.get('/current', requireAuth, async (req, res) => {
 
 //Get details of a Spot from an id --> URL: /api/spots/:spotId
 router.get('/:spotId', async (req, res) => {
-        const spot = await Spot.findOne({
-            where: { id: req.params.spotId },
+
+    const spotId = parseInt(req.params.spotId)
+        const spot = await Spot.findByPk({spotId,
             include: [
                 { model: Review },
                 { attributes: ['id', 'url', 'preview'], model: SpotImage },
@@ -405,7 +406,7 @@ router.get('/:spotId/reviews', async (req, res) => {
         include: [
             {
                 model: User,
-                attributes: ['id', 'firstname', 'lastName']
+                attributes: ['id', 'firstName', 'lastName']
             },
             { model: ReviewImage, attributes: ["id", "url"] }
         ]
