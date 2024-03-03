@@ -12,23 +12,33 @@ module.exports = {
     const reviewsData = [
       {
         spotId: 1,
-        userId: 1,
+        userId: 2,
         review: 'This spot was amazing!',
         stars: 5
-        
       },
       {
         spotId: 2,
-        userId: 2,
+        userId: 1,
         review: 'Great experience overall!',
         stars: 4
- 
       },
       {
         spotId: 3,
-        userId: 3,
+        userId: 4,
         review: 'Could be better.',
         stars: 3
+      },
+      {
+        spotId: 4,
+        userId: 3,
+        review: 'Place was okay. Could have been better.',
+        stars: 3
+      },
+      {
+        spotId: 5,
+        userId: 5,
+        review: 'Lovely! Beutiful views',
+        stars: 5
       }
     ];
 

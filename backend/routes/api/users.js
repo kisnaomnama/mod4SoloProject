@@ -21,7 +21,7 @@ const validateSignup = [
   check('username')
     .not()
     .isEmail()
-    .withMessage('Username is required'),
+    .withMessage('Username is required not email'),
   check('firstName')
     .exists({ checkFalsy: true })
     .isLength({ min: 2 })
@@ -47,6 +47,7 @@ const validateEmail = async (req, res, next) => {
     err.errors = {
       "email": "User with that email already exists"
     }
+    res.status(500)
     next(err)
   }
   next()
@@ -59,14 +60,15 @@ const validateUserName = async (req, res, next) => {
     const err = new Error()
     err.message = 'User already exists'
     err.errors = {
-      "username": "User with that email already exists"
+      "username": "User with that namename already exists"
     }
+    res.status(500)
     next(err)
   }
   next()
 }
 
-// Sign up
+//Sign Up a User -->  URL: /api/users
 router.post('/', validateSignup, validateEmail, validateUserName, async (req, res, next) => {
   const { firstName, lastName, email, password, username } = req.body;
   const hashedPassword = bcrypt.hashSync(password);

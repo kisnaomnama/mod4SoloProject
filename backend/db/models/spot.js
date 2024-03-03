@@ -1,14 +1,10 @@
 'use strict';
 const {
-  Model
+  Model, Validator
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
       Spot.belongsTo(models.User,
         { foreignKey: 'ownerId' });
@@ -36,7 +32,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Spot.init({
-    ownerId: DataTypes.INTEGER,
+    ownerId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     address: DataTypes.STRING,
     city: DataTypes.STRING,
     state: DataTypes.STRING,
@@ -65,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    price: DataTypes.DECIMAL
+    price: DataTypes.FLOAT
   }, {
     sequelize,
     modelName: 'Spot',

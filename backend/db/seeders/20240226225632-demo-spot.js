@@ -49,6 +49,30 @@ module.exports = {
         name: 'Luxury Penthouse',
         description: 'A luxurious penthouse with stunning city views',
         price: 300.00
+      },
+      {
+        ownerId: 1,
+        address: '123 Oak Street',
+        city: 'New York',
+        state: 'NY',
+        country: 'USA',
+        lat: 37.7749,
+        lng: -20.4194,
+        name: 'Palace',
+        description: 'Stunning city views',
+        price: 450.00
+      }, 
+       {
+        ownerId: 2,
+        address: '789 Pine Avenue',
+        city: 'Los Angeles',
+        state: 'CA',
+        country: 'USA',
+        lat: 40.7749,
+        lng: -120.4194,
+        name: 'Manson Kone',
+        description: 'Mordern apartment',
+        price: 1000.00
       }
     ];
 
