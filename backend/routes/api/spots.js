@@ -253,7 +253,7 @@ router.get('/current', requireAuth, async (req, res) => {
 router.get('/:spotId', async (req, res) => {
 
     const spotId = parseInt(req.params.spotId)
-        const spot = await Spot.findByPk({spotId,
+        const spot = await Spot.findByPk(spotId, {
             include: [
                 { model: Review },
                 { attributes: ['id', 'url', 'preview'], model: SpotImage },
@@ -374,7 +374,8 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
 
 //Delete a Spot -->URL: /api/spots/:spotId
 router.delete('/:spotId', requireAuth, async (req, res) => {
-    const spot = await Spot.findByPk(req.params.spotId)
+    const spotId = parseInt(req.params.spotId)
+    const spot = await Spot.findByPk(spotId)
 
     if (!spot) {
         res.status(404)
@@ -524,13 +525,13 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
     })
 
     if (bookedSpots.length > 0) {
-        const err = new Error("Existing bookings found")
-        res.status(400)
+        const err = new Error()
         err.message = "Sorry, this spot is already booked for the specified dates"
         err.errors = {
             "startDate": "Start date conflicts with an existing booking",
             "endDate": "End date conflicts with an existing booking"
         }
+        err.status(400)
         return next(err)
     }
 

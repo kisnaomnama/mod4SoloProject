@@ -8,19 +8,19 @@ const { Op } = require("sequelize");
 
 const router = express.Router()
 
-const validateBooking = [
+const validateStartEndDates = [
     check('startDate')
         .exists({ checkFalsy: true })
-        .isAfter(new Date().toISOString()) // Validates that the startDate is in the future
+        .isAfter(new Date().toISOString())
         .withMessage('startDate cannot be in the past'),
     check('endDate')
         .exists({ checkFalsy: true })
-        .isAfter(new Date().toISOString())
-        .withMessage('endDate cannot be on or before startDate')
-        .custom((endDate, { req }) => endDate > req.body.startDate) // Validates that endDate is after startDate
+        .custom((value, { req }) => {
+            return new Date(value) > new Date(req.body.startDate);
+        })
         .withMessage('endDate cannot be on or before startDate'),
-    handleValidationErrors,
-]
+    handleValidationErrors
+];
 
 const getSpotImagesForBookings = async (bookings) => {
     for (let i = 0; i < bookings.length; i++) {
@@ -59,66 +59,91 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 //Edit a Booking --> URL: /api/bookings/:bookingId
-router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) => {
-    const bookingId = parseInt(req.params.bookingId)
-    const userId = parseInt(req.user.id)
-
-    const { startDate, endDate } = req.body
+router.put('/:bookingId', validateStartEndDates, requireAuth, async (req, res) => {
+    const { startDate, endDate } = req.body;
+    const bookingId = parseInt(req.params.bookingId);
+    const userId = req.user.id;
 
     const booking = await Booking.findByPk(bookingId);
 
-    if (!booking) {
-        res.status(404)
-        return res.json({ message: "Booking couldn't be found" });
-    }
-
     if (booking.userId !== userId) {
-        res.status(403)
-        return res.json({ message: "Forbidden" });
-    }
+        return res.status(403).json({
+            message: "Forbidden"
+        });
+    };
 
-    const bookingEndDate = new Date(booking.endDate).toISOString();
-    // const bookingStartDate = new Date(booking.startDate).toISOString();
-    const currentDate = new Date().toISOString();
+    if (!booking) {
+        return res.status(404).json({
+            message: "Booking couldn't be found"
+        });
+    };
 
-    // console.log('booking.endDate.......', bookingEndDate);
-    // console.log('new Date()............', currentDate);
+    const currentDate = new Date();
+    const startDateCheck = new Date(startDate);
+    const endDateCheck = new Date(endDate);
 
-    if (bookingEndDate < currentDate) {
-        res.status(403);
-        return res.json({ message: "Past bookings can't be modified" });
-    }
+    if (endDateCheck < currentDate) {
+        return res.status(403).json({
+            message: "Past bookings can't be modified"
+        });
+    };
 
-    const spotId = parseInt(booking.spotId)
-
-    const bookedSpot = await Booking.findOne({
+    const checkBooking = await Booking.findOne({
         where: {
             id: { [Op.ne]: bookingId },
-            spotId: spotId,
-            startDate: { [Op.lte]: new Date(endDate).toDateString() },
-            endDate: { [Op.gte]: new Date(startDate).toDateString() }
+            spotId: booking.spotId,
+            [Op.and]: [
+                {
+                    startDate: {
+                        [Op.lte]: endDateCheck
+                    }
+                },
+                {
+                    endDate: {
+                        [Op.gte]: startDateCheck
+                    }
+                }
+            ]
         }
-    })
+    });
 
-    if (bookedSpot) {
-        const err = new Error("Existing bookings found")
-        err.message = "Sorry, this spot is already booked for the specified dates"
-        err.errors = {
-            "startDate": "Start date conflicts with an existing booking",
-            "endDate": "End date conflicts with an existing booking"
+    if (checkBooking) {
+        const bookingStart = new Date(checkBooking.startDate).getTime();
+        const bookingEnd = new Date(checkBooking.endDate).getTime();
+        const errorResponse = {
+            message: "Sorry, this spot is already booked for the specified dates",
+            errors: {}
+        };
+    
+        if (endDateCheck.getTime() === bookingStart) {
+            errorResponse.errors.endDate = "End date conflicts with an existing booking";
         }
-        res.status(400)
-        return next(err)
+    
+        if (startDateCheck >= bookingStart) {
+            errorResponse.errors.startDate = "Start date conflicts with an existing booking";
+        }
+    
+        if (endDateCheck <= bookingEnd) {
+            errorResponse.errors.endDate = "End date conflicts with an existing booking";
+        }
+    
+        if (startDateCheck < bookingStart && endDateCheck > bookingEnd) {
+            errorResponse.errors = {
+                startDate: "Start date conflicts with an existing booking",
+                endDate: "End date conflicts with an existing booking"
+            };
+        }
+        
+        return res.status(403).json(errorResponse);
     }
 
-    booking.startDate = startDate 
-    booking.endDate = endDate 
+    booking.startDate = startDate || booking.startDate
+    booking.endDate = endDate || booking.endDate
 
-    await booking.save()
+    await booking.save();
 
-    res.json(booking)
+    res.json(booking);
 });
-
 
 
 //Delete a Booking --> URL: /api/bookings/:bookingId
@@ -127,25 +152,25 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
     const bookingId = parseInt(req.params.bookingId)
     const currentDate = new Date().toISOString();
 
-    const foundBooking = await Booking.findByPk(bookingId, {
+    const checkBooking = await Booking.findByPk(bookingId, {
         include: { model: Spot }
     });
 
-    if (!foundBooking) {
+    if (!checkBooking) {
         res.status(404)
         return res.json({ message: "Booking couldn't be found" })
     }
 
-    const spotOwnerId = foundBooking.Spot.ownerId
-    const bookingUserId = foundBooking.userId
+    const spotOwnerId = checkBooking.Spot.ownerId
+    const bookingUserId = checkBooking.userId
 
     if (bookingUserId === userId || spotOwnerId === userId) {
-        if (foundBooking.startDate <= currentDate) {
+        if (checkBooking.startDate <= currentDate) {
             res.status(403)
             return res.json({ message: "Bookings that have been started can't be deleted" })
         }
 
-        await foundBooking.destroy()
+        await checkBooking.destroy()
         return res.json({ message: "Successfully deleted" })
     }
 
