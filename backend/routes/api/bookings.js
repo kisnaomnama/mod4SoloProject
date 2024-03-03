@@ -59,22 +59,24 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 //Edit a Booking --> URL: /api/bookings/:bookingId
-router.put('/:bookingId', validateStartEndDates, requireAuth, async (req, res) => {
+router.put('/:bookingId',requireAuth, validateStartEndDates,async (req, res) => {
     const { startDate, endDate } = req.body;
     const bookingId = parseInt(req.params.bookingId);
     const userId = req.user.id;
 
     const booking = await Booking.findByPk(bookingId);
 
-    if (booking.userId !== userId) {
-        return res.status(403).json({
-            message: "Forbidden"
+    if (!booking) {
+        res.status(403)
+        return res.json({
+            message: "Booking couldn't be found"
         });
     };
 
-    if (!booking) {
-        return res.status(404).json({
-            message: "Booking couldn't be found"
+    if (booking.userId !== userId) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
         });
     };
 
@@ -83,7 +85,8 @@ router.put('/:bookingId', validateStartEndDates, requireAuth, async (req, res) =
     const endDateCheck = new Date(endDate);
 
     if (endDateCheck < currentDate) {
-        return res.status(403).json({
+        res.status(403)
+        return res.json({
             message: "Past bookings can't be modified"
         });
     };
@@ -114,27 +117,28 @@ router.put('/:bookingId', validateStartEndDates, requireAuth, async (req, res) =
             message: "Sorry, this spot is already booked for the specified dates",
             errors: {}
         };
-    
+
         if (endDateCheck.getTime() === bookingStart) {
             errorResponse.errors.endDate = "End date conflicts with an existing booking";
         }
-    
+
         if (startDateCheck >= bookingStart) {
             errorResponse.errors.startDate = "Start date conflicts with an existing booking";
         }
-    
+
         if (endDateCheck <= bookingEnd) {
             errorResponse.errors.endDate = "End date conflicts with an existing booking";
         }
-    
+
         if (startDateCheck < bookingStart && endDateCheck > bookingEnd) {
             errorResponse.errors = {
                 startDate: "Start date conflicts with an existing booking",
                 endDate: "End date conflicts with an existing booking"
             };
         }
-        
-        return res.status(403).json(errorResponse);
+
+        res.status(403)
+        return res.json(errorResponse);
     }
 
     booking.startDate = startDate || booking.startDate
