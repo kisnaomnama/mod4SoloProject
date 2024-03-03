@@ -3,7 +3,7 @@ const express = require('express')
 const bcrypt = require('bcryptjs');
 
 const { Op } = require('sequelize');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -22,6 +22,7 @@ const validateLogin = [
 ];
 
 
+//Get the Current User--> URL: /api/session
 router.get('/', (req, res) => {
   const { user } = req;
   if (user) {
@@ -35,46 +36,47 @@ router.get('/', (req, res) => {
     return res.json({
       user: safeUser
     });
-  } else return res.json({ user: null });
+  }
+  return res.json({ user: null });
 }
 );
 
-// Log in
+//Log In a User --> /api/session
 router.post('/', validateLogin, async (req, res, next) => {
-    const { credential, password } = req.body;
+  const { credential, password } = req.body;
 
-    const user = await User.unscoped().findOne({
-      where: {
-        [Op.or]: {
-          username: credential,
-          email: credential
-        }
+  const user = await User.unscoped().findOne({
+    where: {
+      [Op.or]: {
+        username: credential,
+        email: credential
       }
-    });
-
-    if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-      res.status(401)
-      return res.json({message: "Invalid credentials" })
     }
+  });
 
-    const safeUser = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      username: user.username,
-    };
-
-    await setTokenCookie(res, safeUser);
-
-    return res.json({
-      user: safeUser
-    });
+  if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+    res.status(401)
+    return res.json({ message: "Invalid credentials" })
   }
+
+  const safeUser = {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    username: user.username,
+  };
+
+  await setTokenCookie(res, safeUser);
+
+  return res.json({
+    user: safeUser
+  });
+}
 );
 
 
-// Log out
+// Log out user--> /api/session
 router.delete('/', (_req, res) => {
   res.clearCookie('token');
   return res.json({ message: 'success' });

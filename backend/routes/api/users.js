@@ -21,7 +21,7 @@ const validateSignup = [
   check('username')
     .not()
     .isEmail()
-    .withMessage('Username is required no-email'),
+    .withMessage('Username is required not email'),
   check('firstName')
     .exists({ checkFalsy: true })
     .isLength({ min: 2 })
@@ -68,7 +68,7 @@ const validateUserName = async (req, res, next) => {
   next()
 }
 
-// Sign up
+//Sign Up a User -->  URL: /api/users
 router.post('/', validateSignup, validateEmail, validateUserName, async (req, res, next) => {
   const { firstName, lastName, email, password, username } = req.body;
   const hashedPassword = bcrypt.hashSync(password);

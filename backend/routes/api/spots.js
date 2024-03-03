@@ -1,7 +1,7 @@
 // backend/routes/api/users.js
 const express = require('express')
-const { Op, Sequelize } = require('sequelize')
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { Op } = require('sequelize')
+const { requireAuth } = require('../../utils/auth');
 const { User, Spot, Booking, Review, SpotImage, ReviewImage } = require('../../db/models');
 const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -61,6 +61,7 @@ const validateReview = [
         .exists({ checkFalsy: true })
         .isInt({ min: 1, max: 5 })
         .withMessage('Stars must be an integer from 1 to 5'),
+
     handleValidationErrors,
 ];
 
@@ -68,14 +69,14 @@ const validateReview = [
 const validateBooking = [
     check('startDate')
         .exists({ checkFalsy: true })
-        .isAfter(new Date().toISOString()) // Validates that the startDate is in the future
+        .isAfter(new Date().toISOString()) 
         .withMessage('startDate cannot be in the past'),
 
     check('endDate')
         .exists({ checkFalsy: true })
         .isAfter(new Date().toISOString())
         .withMessage('endDate cannot be on or before startDate')
-        .custom((endDate, { req }) => endDate > req.body.startDate) // Validates that endDate is after startDate
+        .custom((endDate, { req }) => endDate > req.body.startDate) 
         .withMessage('endDate cannot be on or before startDate'),
     handleValidationErrors,
 ]
@@ -137,6 +138,8 @@ const getSpotImagePreview = async (spotId) => {
     return spotImgPreview ? spotImgPreview.url : null;
 };
 
+
+//Get all Spots --> URL: /api/spots
 router.get('/', validateQuery, async (req, res) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
@@ -176,7 +179,6 @@ router.get('/', validateQuery, async (req, res) => {
         if (maxPrice) queryObj.where.price = { [Op.lte]: maxPrice };
     }
 
-
         const spots = await Spot.findAll({
             include: [{ model: Review }],
             ...paginationObj,
@@ -214,6 +216,7 @@ router.get('/', validateQuery, async (req, res) => {
   
 });
 
+//Get all Spots owned by the Current User --> URL: /api/spots/current
 router.get('/current', requireAuth, async (req, res) => {
         const spots = await Spot.findAll({
             where: { ownerId: req.user.id },
@@ -246,7 +249,7 @@ router.get('/current', requireAuth, async (req, res) => {
         return res.json({ Spots: formattedSpots });
 });
 
-
+//Get details of a Spot from an id --> URL: /api/spots/:spotId
 router.get('/:spotId', async (req, res) => {
         const spot = await Spot.findOne({
             where: { id: req.params.spotId },
@@ -285,6 +288,7 @@ router.get('/:spotId', async (req, res) => {
 });
 
 
+//Create a Spot --> URL: /api/spots
 router.post('/', requireAuth, validateSpot, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
 
@@ -299,13 +303,13 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
         name,
         description,
         price
-    })
+    });
 
     res.status(201)
     return res.json(newSpot)
 })
 
-
+//Add an Image to a Spot based on the Spot's id --> URL: /api/spots/:spotId/images
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
     const { url, preview } = req.body;
@@ -324,7 +328,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     let newImage = await SpotImage.create({
         spotId: spot.id,
         url,
-        preview,
+        preview
     });
 
     const result = {
@@ -336,7 +340,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     return res.json(result)
 });
 
-
+//Edit a Spot --> URL: /api/spots/:spotId
 router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const spot = await Spot.findByPk(req.params.spotId)
@@ -367,8 +371,8 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
 })
 
 
+//Delete a Spot -->URL: /api/spots/:spotId
 router.delete('/:spotId', requireAuth, async (req, res) => {
-
     const spot = await Spot.findByPk(req.params.spotId)
 
     if (!spot) {
@@ -386,9 +390,11 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     return res.json({ message: "Successfully deleted" })
 })
 
-//Get all Reviews by a Spot's id
+
+//Get all Reviews by a Spot's id --> URL: /api/spots/:spotId/reviews
 router.get('/:spotId/reviews', async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId)
+
     if (!spot) {
         res.status(404)
         return res.json({ message: "Spot couldn't be found" })
@@ -405,17 +411,11 @@ router.get('/:spotId/reviews', async (req, res) => {
         ]
     })
 
-    // if (!allreviews.length) {
-    //     res.status(404)
-    //     return res.json({ message: "Spot couldn't be found" })
-    // }
-
     return res.json({ Reviews: allreviews })
 });
 
-
+//Create a Review for a Spot based on the Spot's id --> URL: /api/spots/:spotId/reviews
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
-
     const { review, stars } = req.body
     const userId = req.user.id
     const spotId = parseInt(req.params.spotId)
@@ -451,7 +451,8 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     return res.json(newReview)
 });
 
-//Get all Bookings for a Spot based on the Spot's id
+
+//Get all Bookings for a Spot based on the Spot's id --> URL: /api/spots/:spotId/bookings
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     const spotId = parseInt(req.params.spotId)
 
@@ -492,7 +493,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     return res.json({ Bookings: resultBookings })
 });
 
-
+//Create a Booking from a Spot based on the Spot's id --> URL: /api/spots/:spotId/bookings
 router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const spotId = parseInt(req.params.spotId)
     const userId = parseInt(req.user.id)

@@ -5,10 +5,11 @@ const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
-// Delete a Review /api/review-images/:imageId
+
+// Delete a Review -->/api/review-images/:imageId
 router.delete('/:imageId', requireAuth, async (req, res) => {
-    const userId  = req.user.id
-    const imageId = req.params.imageId
+    const userId  = parseInt(req.user.id)
+    const imageId = parseInt(req.params.imageId)
 
     const foundImage = await ReviewImage.findByPk(imageId)
     if (!foundImage){
@@ -20,7 +21,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
         where: { id: foundImage.reviewId } 
     })
 
-    if (foundReview.userId != userId) {
+    if (foundReview.userId !== userId) {
          res.status(403)
         return res.json({ message: "Forbidden" })
     }
