@@ -531,8 +531,8 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
             "startDate": "Start date conflicts with an existing booking",
             "endDate": "End date conflicts with an existing booking"
         }
-        err.status(400)
-        return next(err)
+        res.status(400)
+        return res.json(err)
     }
 
     const newBooking = await Booking.create({
@@ -544,10 +544,6 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
 
     res.json(newBooking)
 })
-
-
-
-
 
 
 module.exports = router;
