@@ -87,6 +87,7 @@ const validateDates = (req, res, next) => {
 //Edit a Booking --> URL: /api/bookings/:bookingId
 router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
     let { startDate, endDate } = req.body;
+    const currentDate = new Date();
     startDate = new Date(startDate);
     endDate = new Date(endDate);
     const bookingId = parseInt(req.params.bookingId);
@@ -107,6 +108,12 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
             message: "Forbidden"
         });
     };
+
+    //check for the past booking date
+    const oldBookingEndDate = new Date(booking.endDate)
+    if (oldBookingEndDate < currentDate) {
+        return res.status(403).json({ message: "Past bookings can't be modified" });
+    }
 
     const checkBooking = await Booking.findOne({
         where: {
@@ -130,12 +137,6 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
     if (checkBooking) {
         const bookingStart = new Date(checkBooking.startDate)
         const bookingEnd = new Date(checkBooking.endDate)
-        const currentDate = new Date();
-
-        if (bookingEnd < currentDate) {
-            return res.status(403).json({ message: "Past bookings can't be modified" });
-        }
-
         const errorResponse = {
             message: "Sorry, this spot is already booked for the specified dates",
             errors: {}
