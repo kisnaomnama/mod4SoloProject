@@ -66,20 +66,20 @@ const validateReview = [
 ];
 
 
-const validateBooking = [
+const validateStartEndDates = [
     check('startDate')
         .exists({ checkFalsy: true })
         .isAfter(new Date().toISOString())
         .withMessage('startDate cannot be in the past'),
-
     check('endDate')
         .exists({ checkFalsy: true })
-        .isAfter(new Date().toISOString())
-        .withMessage('endDate cannot be on or before startDate')
-        .custom((endDate, { req }) => endDate > req.body.startDate)
+        .custom((value, { req }) => {
+            return new Date(value) > new Date(req.body.startDate);
+        })
         .withMessage('endDate cannot be on or before startDate'),
-    handleValidationErrors,
-]
+    handleValidationErrors
+];
+
 
 const paramsErrorHandeler = (req, res, next) => {
     const errors = validationResult(req);
@@ -261,7 +261,10 @@ router.get('/current', requireAuth, async (req, res) => {
         previewImage: spot.previewImage
     }));
 
-    return res.json({ Spots: resultSpots });
+    return res.json({
+        Spots: resultSpots,
+        page: parseInt(page), size: parseInt(size)
+    });
 });
 
 //Get details of a Spot from an id --> URL: /api/spots/:spotId
@@ -511,54 +514,116 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 });
 
 //Create a Booking from a Spot based on the Spot's id --> URL: /api/spots/:spotId/bookings
-router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
-    const spotId = parseInt(req.params.spotId)
-    const userId = parseInt(req.user.id)
+const validateDates = (req, res, next) => {
+    const { startDateCheck, endDateCheck } = req.body;
+    const currentDate = new Date();
+    const errorResponse = {
+        message: "Bad Request",
+        errors: {}
+    };
 
-    const { startDate, endDate } = req.body
+    if (startDateCheck < currentDate && endDateCheck <= startDateCheck) {
+        errorResponse.errors = {
+            startDate: "startDate cannot be in the past",
+            endDate: "endDate cannot be on or before startDate"
+        };
+    } else if (startDateCheck < currentDate) {
+        errorResponse.errors.startDate = "startDate cannot be in the past";
+    } else if (endDateCheck <= startDateCheck) {
+        errorResponse.errors.endDate = "endDate cannot be on or before startDate";
+    } else {
+        return next();
+    }
+
+    res.status(400)
+    return res.json(errorResponse);
+};
+
+router.post('/:spotId/bookings', requireAuth, validateDates, async (req, res) => {
+    let { startDate, endDate } = req.body;
+    const spotId = parseInt(req.params.spotId);
+    const userId = parseInt(req.user.id);
 
     const spot = await Spot.findByPk(spotId);
 
     if (!spot) {
-        res.status(404)
-        return res.json({ message: "Spot couldn't be found" });
-    }
+        return res.status(404).json({
+            message: "Spot couldn't be found"
+        });
+    };
 
-    if (spot.ownerId === userId) {
-        res.status(403)
-        return res.json({ message: "Forbidden" });
-    }
+    if (spot.ownerId == userId) {
+        return res.status(403).json({
+            message: "Forbidden"
+        });
+    };
 
-    const bookedSpots = await Booking.findAll({
+    const startDateCheck = new Date(startDate);
+    const endDateCheck = new Date(endDate);
+
+    const checkBooking = await Booking.findOne({
         where: {
-            spotId: spotId,
-            [Op.or]: [
-                { startDate: { [Op.between]: [startDate, endDate] } },
-                { endDate: { [Op.between]: [startDate, endDate] } }
+            spotId,
+            [Op.and]: [
+                {
+                    startDate: {
+                        [Op.lte]: endDateCheck
+                    }
+                },
+                {
+                    endDate: {
+                        [Op.gte]: startDateCheck
+                    }
+                }
             ]
         }
-    })
+    });
 
-    if (bookedSpots.length > 0) {
-        const err = new Error()
-        err.message = "Sorry, this spot is already booked for the specified dates"
-        err.errors = {
-            "startDate": "Start date conflicts with an existing booking",
-            "endDate": "End date conflicts with an existing booking"
-        }
-        res.status(400)
-        return res.json(err)
-    }
+    if (checkBooking) {
+        const bookingStart = new Date(checkBooking.startDate).getTime();
+        const bookingEnd = new Date(checkBooking.endDate).getTime();
+        const errorResponse = {
+            message: "Sorry, this spot is already booked for the specified dates",
+            errors: {}
+        };
+
+        if (endDateCheck.getTime() == bookingStart) {
+            errorResponse.errors.endDate = "End date conflicts with an existing checkBooking";
+        };
+
+        if (startDateCheck >= bookingStart && endDateCheck <= bookingEnd) {
+            errorResponse.errors = {
+                startDate: "Start date conflicts with an existing checkBooking",
+                endDate: "End date conflicts with an existing checkBooking"
+            }
+        };
+
+        if (startDateCheck >= bookingStart) {
+            errorResponse.errors.startDate = "Start date conflicts with an existing checkBooking"
+        };
+
+        if (endDateCheck <= bookingEnd) {
+            errorResponse.errors.endDate = "End date conflicts with an existing checkBooking"
+        };
+
+        if (startDateCheck < bookingStart && endDateCheck > bookingEnd) {
+            errorResponse.errors = {
+                startDate: "Start date conflicts with an existing checkBooking",
+                endDate: "End date conflicts with an existing checkBooking"
+            }
+        };
+        res.status(403)
+        return res.json(errorResponse);
+    };
 
     const newBooking = await Booking.create({
         spotId,
         userId,
         startDate,
-        endDate,
-    })
+        endDate
+    });
 
-    res.json(newBooking)
-})
-
+    return res.json(newBooking);
+});
 
 module.exports = router;
