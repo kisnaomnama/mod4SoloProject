@@ -68,11 +68,6 @@ const validateDates = (req, res, next) => {
         errors: {}
     };
 
-    if (endDate < currentDate) {
-        errorResponse.message = "Past bookings can't be modified";
-        return res.status(403).json(errorResponse);
-    }
-
     if (startDate < currentDate && endDate <= startDate) {
         errorResponse.errors = {
             startDate: "startDate cannot be in the past",
@@ -135,6 +130,12 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
     if (checkBooking) {
         const bookingStart = new Date(checkBooking.startDate)
         const bookingEnd = new Date(checkBooking.endDate)
+        const currentDate = new Date();
+
+        if (bookingEnd < currentDate) {
+            return res.status(403).json({ message: "Past bookings can't be modified" });
+        }
+
         const errorResponse = {
             message: "Sorry, this spot is already booked for the specified dates",
             errors: {}
