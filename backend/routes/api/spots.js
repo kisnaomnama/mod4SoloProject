@@ -226,8 +226,8 @@ router.get('/', validateSpotQueryParams, async (req, res) => {
 
     return res.json({
         Spots: resultSpots,
-        page,
-        size
+        page: parseInt(page),
+        size: parseInt(size)
     });
 });
 
@@ -262,8 +262,7 @@ router.get('/current', requireAuth, async (req, res) => {
     }));
 
     return res.json({
-        Spots: resultSpots,
-        page: parseInt(page), size: parseInt(size)
+        Spots: resultSpots
     });
 });
 
@@ -515,21 +514,21 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 //Create a Booking from a Spot based on the Spot's id --> URL: /api/spots/:spotId/bookings
 const validateDates = (req, res, next) => {
-    const { startDateCheck, endDateCheck } = req.body;
+    const { startDate, endDate } = req.body;
     const currentDate = new Date();
     const errorResponse = {
         message: "Bad Request",
         errors: {}
     };
 
-    if (startDateCheck < currentDate && endDateCheck <= startDateCheck) {
+    if (startDate < currentDate && endDate <= startDate) {
         errorResponse.errors = {
             startDate: "startDate cannot be in the past",
             endDate: "endDate cannot be on or before startDate"
         };
-    } else if (startDateCheck < currentDate) {
+    } else if (startDate < currentDate) {
         errorResponse.errors.startDate = "startDate cannot be in the past";
-    } else if (endDateCheck <= startDateCheck) {
+    } else if (endDate <= startDate) {
         errorResponse.errors.endDate = "endDate cannot be on or before startDate";
     } else {
         return next();

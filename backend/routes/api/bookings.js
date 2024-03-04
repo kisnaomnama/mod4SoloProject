@@ -59,27 +59,27 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 const validateDates = (req, res, next) => {
-    const { startDateCheck, endDateCheck } = req.body;
+    const { startDate, endDate } = req.body;
     const currentDate = new Date();
     const errorResponse = {
         message: "Bad Request",
         errors: {}
     };
 
-    if (endDateCheck < currentDate) {
+    if (endDate < currentDate) {
         errorResponse.message = "Past bookings can't be modified";
         res.status(403)
         return res.json(errorResponse);
     }
 
-    if (startDateCheck < currentDate && endDateCheck <= startDateCheck) {
+    if (startDate < currentDate && endDate <= startDate) {
         errorResponse.errors = {
             startDate: "startDate cannot be in the past",
             endDate: "endDate cannot be on or before startDate"
         };
-    } else if (startDateCheck < currentDate) {
+    } else if (startDate < currentDate) {
         errorResponse.errors.startDate = "startDate cannot be in the past";
-    } else if (endDateCheck <= startDateCheck) {
+    } else if (endDate <= startDate) {
         errorResponse.errors.endDate = "endDate cannot be on or before startDate";
     } else {
         return next();
@@ -113,10 +113,10 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
     };
 
     // const currentDate = new Date();
-    // const startDateCheck = new Date(startDate);
-    // const endDateCheck = new Date(endDate);
+    // const startDate = new Date(startDate);
+    // const endDate = new Date(endDate);
 
-    // if (endDateCheck < currentDate) {
+    // if (endDate < currentDate) {
     //     res.status(403)
     //     return res.json({
     //         message: "Past bookings can't be modified"
@@ -130,12 +130,12 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
             [Op.and]: [
                 {
                     startDate: {
-                        [Op.lte]: endDateCheck
+                        [Op.lte]: endDate
                     }
                 },
                 {
                     endDate: {
-                        [Op.gte]: startDateCheck
+                        [Op.gte]: startDate
                     }
                 }
             ]
@@ -150,19 +150,19 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
             errors: {}
         };
 
-        if (endDateCheck.getTime() === bookingStart) {
+        if (endDate.getTime() === bookingStart) {
             errorResponse.errors.endDate = "End date conflicts with an existing booking";
         }
 
-        if (startDateCheck >= bookingStart) {
+        if (startDate >= bookingStart) {
             errorResponse.errors.startDate = "Start date conflicts with an existing booking";
         }
 
-        if (endDateCheck <= bookingEnd) {
+        if (endDate <= bookingEnd) {
             errorResponse.errors.endDate = "End date conflicts with an existing booking";
         }
 
-        if (startDateCheck < bookingStart && endDateCheck > bookingEnd) {
+        if (startDate < bookingStart && endDate > bookingEnd) {
             errorResponse.errors = {
                 startDate: "Start date conflicts with an existing booking",
                 endDate: "End date conflicts with an existing booking"
