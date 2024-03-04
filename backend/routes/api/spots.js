@@ -261,7 +261,10 @@ router.get('/current', requireAuth, async (req, res) => {
         previewImage: spot.previewImage
     }));
 
-    return res.json({ Spots: resultSpots });
+    return res.json({
+        Spots: resultSpots,
+        page: parseInt(page), size: parseInt(size)
+    });
 });
 
 //Get details of a Spot from an id --> URL: /api/spots/:spotId

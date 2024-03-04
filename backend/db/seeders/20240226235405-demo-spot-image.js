@@ -46,7 +46,6 @@ module.exports = {
         preview: true
       }
     ];
-      
       await SpotImage.bulkCreate(spotImagesData, { validate: true });
   },
 
