@@ -150,7 +150,7 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
             errors: {}
         };
 
-        if (endDate.getTime() === bookingStart) {
+        if (endDate == bookingStart) {
             errorResponse.errors.endDate = "End date conflicts with an existing booking";
         }
 
