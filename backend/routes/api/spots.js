@@ -66,35 +66,35 @@ const validateReview = [
 ];
 
 
-const validateStartEndDates = [
-    check('startDate')
-        .exists({ checkFalsy: true })
-        .isAfter(new Date().toISOString())
-        .withMessage('startDate cannot be in the past'),
-    check('endDate')
-        .exists({ checkFalsy: true })
-        .custom((value, { req }) => {
-            return new Date(value) > new Date(req.body.startDate);
-        })
-        .withMessage('endDate cannot be on or before startDate'),
-    handleValidationErrors
-];
+// const validateStartEndDates = [
+//     check('startDate')
+//         .exists({ checkFalsy: true })
+//         .isAfter(new Date().toISOString())
+//         .withMessage('startDate cannot be in the past'),
+//     check('endDate')
+//         .exists({ checkFalsy: true })
+//         .custom((value, { req }) => {
+//             return new Date(value) > new Date(req.body.startDate);
+//         })
+//         .withMessage('endDate cannot be on or before startDate'),
+//     handleValidationErrors
+// ];
 
 
-const paramsErrorHandeler = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const extractedErrors = {};
-        errors.array().forEach(error => {
-            extractedErrors[error.param] = error.msg;
-        });
-        return res.status(400).json({
-            message: 'Bad Request',
-            errors: extractedErrors
-        });
-    }
-    next();
-};
+// const paramsErrorHandeler = (req, res, next) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//         const extractedErrors = {};
+//         errors.array().forEach(error => {
+//             extractedErrors[error.param] = error.msg;
+//         });
+//         return res.status(400).json({
+//             message: 'Bad Request',
+//             errors: extractedErrors
+//         });
+//     }
+//     next();
+// };
 
 const validateSpotQueryParams = [
     check('page')
@@ -512,7 +512,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     return res.json({ Bookings: resultBookings })
 });
 
-//Create a Booking from a Spot based on the Spot's id --> URL: /api/spots/:spotId/bookings
 const validateDates = (req, res, next) => {
     let { startDate, endDate } = req.body;
     startDate = new Date(startDate);
@@ -536,9 +535,10 @@ const validateDates = (req, res, next) => {
         return next();
     }
 
-    res.status(400).json(errorResponse); // Return the response immediately after setting status
+    return res.status(400).json(errorResponse);
 };
 
+//Create a Booking from a Spot based on the Spot's id --> URL: /api/spots/:spotId/bookings
 router.post('/:spotId/bookings', requireAuth, validateDates, async (req, res) => {
     let { startDate, endDate } = req.body;
     const spotId = parseInt(req.params.spotId);

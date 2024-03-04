@@ -68,8 +68,7 @@ const validateDates = (req, res, next) => {
 
     if (endDate < currentDate) {
         errorResponse.message = "Past bookings can't be modified";
-        res.status(403)
-        return res.json(errorResponse);
+        return res.status(403).json(errorResponse);
     }
 
     if (startDate < currentDate && endDate <= startDate) {
@@ -85,10 +84,8 @@ const validateDates = (req, res, next) => {
         return next();
     }
 
-    res.status(400)
-    return res.json(errorResponse);
+    return res.status(400).json(errorResponse);
 };
-
 
 //Edit a Booking --> URL: /api/bookings/:bookingId
 router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
@@ -184,34 +181,37 @@ router.put('/:bookingId', requireAuth, validateDates, async (req, res) => {
 
 //Delete a Booking --> URL: /api/bookings/:bookingId
 router.delete('/:bookingId', requireAuth, async (req, res) => {
-    const userId = parseInt(req.user.id)
-    const bookingId = parseInt(req.params.bookingId)
-    const currentDate = new Date().toISOString();
+    const bookingId = parseInt(req.params.bookingId);
+    const userId = parseInt(req.user.id);
 
-    const checkBooking = await Booking.findByPk(bookingId, {
-        include: { model: Spot }
-    });
+    const booking = await Booking.findByPk(bookingId);
 
-    if (!checkBooking) {
+    if (!booking) {
         res.status(404)
-        return res.json({ message: "Booking couldn't be found" })
-    }
+        return res.json({ message: "Booking couldn't be found" });
+    };
 
-    const spotOwnerId = checkBooking.Spot.ownerId
-    const bookingUserId = checkBooking.userId
+    if (booking.userId !== userId) {
+        res.status(403)
+        return res.json({ message: "Forbidden" });
+    };
 
-    if (bookingUserId === userId || spotOwnerId === userId) {
-        if (checkBooking.startDate <= currentDate) {
-            res.status(403)
-            return res.json({ message: "Bookings that have been started can't be deleted" })
-        }
+    const spotId = parseInt(booking.spotId)
+    const spot = await Spot.findByPk(spotId);
 
-        await checkBooking.destroy()
-        return res.json({ message: "Successfully deleted" })
-    }
+    const currentDate = new Date();
+    const bookingStart = new Date(booking.startDate);
+    const bookingEnd = new Date(booking.endDate)
 
-    res.status(403)
-    return res.json({ message: "Forbidden" })
-})
+    if (currentDate >= bookingStart && currentDate <= bookingEnd) {
+        res.status(403)
+        return res.json({ message: "Bookings that have been started can't be deleted" });
+    };
+
+    if (booking || spot) {
+        await booking.destroy()
+        return res.json({ message: "Successfully deleted" });
+    };
+});
 
 module.exports = router;
