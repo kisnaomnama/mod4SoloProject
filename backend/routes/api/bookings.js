@@ -8,19 +8,6 @@ const { Op } = require("sequelize");
 
 const router = express.Router()
 
-// const validateStartEndDates = [
-//     check('startDate')
-//         .exists({ checkFalsy: true })
-//         .isAfter(new Date().toISOString())
-//         .withMessage('startDate cannot be in the past'),
-//     check('endDate')
-//         .exists({ checkFalsy: true })
-//         .custom((value, { req }) => {
-//             return new Date(value) > new Date(req.body.startDate);
-//         })
-//         .withMessage('endDate cannot be on or before startDate'),
-//     handleValidationErrors
-// ];
 
 const getSpotImagesForBookings = async (bookings) => {
     for (let i = 0; i < bookings.length; i++) {
@@ -58,44 +45,6 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 
-// const validateDates = (req, res, next) => {
-//     let { startDate, endDate } = req.body;
-//     const currentDate = new Date();
-//     const errorResponse = {
-//         message: "Bad Request",
-//         errors: {}
-//     };
-
-//     // Convert startDate and endDate to Date objects
-//     startDate = new Date(startDate);
-//     endDate = new Date(endDate);
-
-//     // Check if startDate and endDate are valid
-//     if (!startDate || !endDate) {
-//         errorResponse.errors = {
-//             startDate: "startDate and endDate are required",
-//             endDate: "startDate and endDate are required"
-//         };
-//     } else {
-//         // Check if startDate is in the past
-//         if (startDate < currentDate) {
-//             errorResponse.errors.startDate = "startDate cannot be in the past";
-//         }
-//         // Check if endDate is on or before startDate
-//         if (endDate <= startDate) {
-//             errorResponse.errors.endDate = "endDate cannot be on or before startDate";
-//         }
-//     }
-
-//     // If any error occurs, return the errorResponse
-//     if (Object.keys(errorResponse.errors).length > 0) {
-//         return res.status(400).json(errorResponse);
-//     }
-
-//     // If no errors, proceed to the next middleware/route handler
-//     return next();
-// };
-
 const validateDatesBookings = (startDate, endDate, currentDate) => {
     const errors = {};
     if (startDate < currentDate && endDate <= startDate) {
@@ -109,10 +58,11 @@ const validateDatesBookings = (startDate, endDate, currentDate) => {
     return errors;
 };
 
+
 //Edit a Booking --> URL: /api/bookings/:bookingId
 router.put('/:bookingId', requireAuth, async (req, res) => {
     let { startDate, endDate } = req.body;
-    const currentDate = new Date();
+    let currentDate = new Date();
     startDate = new Date(startDate);
     endDate = new Date(endDate);
     const bookingId = parseInt(req.params.bookingId);
@@ -133,6 +83,12 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             message: "Forbidden"
         });
     };
+
+    // if (new Date(startDate) < currentDate || new Date(endDate) < currentDate) {
+    //     return res
+    //         .status(403)
+    //         .json({ message: "Past bookings can't be modified" });
+    // }
 
     //check for the past booking date
     const oldBookingEndDate = new Date(booking.endDate)
