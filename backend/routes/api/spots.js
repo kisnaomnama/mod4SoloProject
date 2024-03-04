@@ -65,37 +65,6 @@ const validateReview = [
     handleValidationErrors,
 ];
 
-
-// const validateStartEndDates = [
-//     check('startDate')
-//         .exists({ checkFalsy: true })
-//         .isAfter(new Date().toISOString())
-//         .withMessage('startDate cannot be in the past'),
-//     check('endDate')
-//         .exists({ checkFalsy: true })
-//         .custom((value, { req }) => {
-//             return new Date(value) > new Date(req.body.startDate);
-//         })
-//         .withMessage('endDate cannot be on or before startDate'),
-//     handleValidationErrors
-// ];
-
-
-// const paramsErrorHandeler = (req, res, next) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         const extractedErrors = {};
-//         errors.array().forEach(error => {
-//             extractedErrors[error.param] = error.msg;
-//         });
-//         return res.status(400).json({
-//             message: 'Bad Request',
-//             errors: extractedErrors
-//         });
-//     }
-//     next();
-// };
-
 const validateSpotQueryParams = [
     check('page')
         .isInt({ min: 1 })
@@ -514,13 +483,21 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 const validateDates = (req, res, next) => {
     let { startDate, endDate } = req.body;
-    startDate = new Date(startDate);
-    endDate = new Date(endDate);
     const currentDate = new Date();
     const errorResponse = {
         message: "Bad Request",
         errors: {}
     };
+
+    if(!startDate || !endDate){
+        errorResponse.errors = {
+            startDate: "startDate cannot be in the past",
+            endDate: "endDate cannot be on or before startDate"
+        };
+    }
+
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
 
     if (startDate < currentDate && endDate <= startDate) {
         errorResponse.errors = {
