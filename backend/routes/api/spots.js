@@ -514,7 +514,9 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 //Create a Booking from a Spot based on the Spot's id --> URL: /api/spots/:spotId/bookings
 const validateDates = (req, res, next) => {
-    const { startDate, endDate } = req.body;
+    let { startDate, endDate } = req.body;
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
     const currentDate = new Date();
     const errorResponse = {
         message: "Bad Request",
@@ -534,8 +536,7 @@ const validateDates = (req, res, next) => {
         return next();
     }
 
-    res.status(400)
-    return res.json(errorResponse);
+    res.status(400).json(errorResponse); // Return the response immediately after setting status
 };
 
 router.post('/:spotId/bookings', requireAuth, validateDates, async (req, res) => {
@@ -579,14 +580,14 @@ router.post('/:spotId/bookings', requireAuth, validateDates, async (req, res) =>
     });
 
     if (checkBooking) {
-        const bookingStart = new Date(checkBooking.startDate).getTime();
-        const bookingEnd = new Date(checkBooking.endDate).getTime();
+        const bookingStart = new Date(checkBooking.startDate);
+        const bookingEnd = new Date(checkBooking.endDate);
         const errorResponse = {
             message: "Sorry, this spot is already booked for the specified dates",
             errors: {}
         };
 
-        if (endDateCheck.getTime() == bookingStart) {
+        if (endDateCheck == bookingStart) {
             errorResponse.errors.endDate = "End date conflicts with an existing checkBooking";
         };
 
