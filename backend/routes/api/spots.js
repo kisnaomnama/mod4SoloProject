@@ -483,7 +483,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
 const validateDates = (req, res, next) => {
     let { startDate, endDate } = req.body;
-    const currentDate = new Date();
+    let currentDate = new Date();
     const errorResponse = {
         message: "Bad Request",
         errors: {}

@@ -45,6 +45,7 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 
+
 const validateDatesBookings = (startDate, endDate, currentDate) => {
     const errors = {};
     if (startDate < currentDate && endDate <= startDate) {
@@ -57,6 +58,7 @@ const validateDatesBookings = (startDate, endDate, currentDate) => {
     }
     return errors;
 };
+
 
 
 //Edit a Booking --> URL: /api/bookings/:bookingId
@@ -84,24 +86,18 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
         });
     };
 
-    // if (new Date(startDate) < currentDate || new Date(endDate) < currentDate) {
-    //     return res
-    //         .status(403)
-    //         .json({ message: "Past bookings can't be modified" });
-    // }
-
-    //check for the past booking date
-    const oldBookingEndDate = new Date(booking.endDate)
-    if (oldBookingEndDate < currentDate) {
-        return res.status(403).json({ message: "Past bookings can't be modified" });
-    }
-
     const errors = validateDatesBookings(startDate, endDate, currentDate);
     if (Object.keys(errors).length > 0) {
         return res.status(400).json({
             message: "Bad Request",
             errors: errors
         });
+    }
+
+    //check for the past booking date
+    const oldBookingEndDate = new Date(booking.endDate)
+    if (oldBookingEndDate < currentDate) {
+        return res.status(403).json({ message: "Past bookings can't be modified" });
     }
 
     const checkBooking = await Booking.findOne({
