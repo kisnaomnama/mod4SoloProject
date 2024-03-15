@@ -3,12 +3,12 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js')
-const reviewsRouter = require('./reviews')
+const reviewsRouter = require('./reviews.js')
 const bookingsRouter = require('./bookings.js')
 const spotImagesRouter = require('./spot-images.js')
 const reviewImagesRouter = require('./review-images.js')
 
-const { User } = require('../../db/models');
+const { User } = require('../../db/models/index.js');
 
 const { setTokenCookie } = require('../../utils/auth.js');
 const { restoreUser } = require('../../utils/auth.js');

@@ -330,7 +330,8 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 //Edit a Spot --> URL: /api/spots/:spotId
 router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
-    const spot = await Spot.findByPk(req.params.spotId)
+    const spotId = parseInt(req.params.spotId)
+    const spot = await Spot.findByPk(spotId)
 
     if (!spot) {
         res.status(404)

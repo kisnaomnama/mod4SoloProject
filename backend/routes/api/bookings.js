@@ -60,7 +60,6 @@ const validateDatesBookings = (startDate, endDate, currentDate) => {
 };
 
 
-
 //Edit a Booking --> URL: /api/bookings/:bookingId
 router.put('/:bookingId', requireAuth, async (req, res) => {
     let { startDate, endDate } = req.body;
