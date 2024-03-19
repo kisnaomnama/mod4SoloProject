@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '*',
-        element: <h2>Oops...Page Not Found</h2>
+        element: <h2>Page Not Found</h2>
       },
       {
         path: '/',
