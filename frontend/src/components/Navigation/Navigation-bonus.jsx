@@ -6,18 +6,33 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
+  // console.log("🚀 ~ Navigation ~ sessionUser:", sessionUser)
 
   return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
+    <header className='header-container'>
+      <div className ='logo-header'>
+        <NavLink to="/" className="home-nav">
+          <div className='home-button'>
+            <img src={logo} className='logo'/> 
+            <h2> Shiva</h2>
+          </div>
+        </NavLink>
+      </div>
+      <section className='top-right-buttons'>
+      {sessionUser && (
+        <div>
+          <NavLink className="create-new-spot-nav" to='/spots/new'>
+            Create a New Spot
+          </NavLink>
+        </div>
       )}
-    </ul>
+      {isLoaded && (
+        <div>
+          <ProfileButton user={sessionUser} />
+        </div>
+      )}
+      </section>
+    </header>
   );
 }
 
