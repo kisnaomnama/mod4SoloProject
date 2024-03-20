@@ -1,8 +1,25 @@
+import SpotForm from "../SpotForm/SpotForm";
+
 const CreateSpot = () => {
+    const spot = {
+        "address": "",
+        "city": "",
+        "state": "",
+        "country": "",
+        "lat": "",
+        "lng": "",
+        "name": "",
+        "description": "",
+        "price": ""
+    }
+
     return(
-        <div>
-            CREATE SPOT
-        </div>
+        <>
+            <div className='new-spot-page'>
+                <h1>Create a New Spot</h1>
+                <SpotForm spot={spot} formType="create" />
+            </div>
+        </>
     )
 }
 

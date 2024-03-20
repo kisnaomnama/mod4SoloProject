@@ -6,7 +6,6 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
-  // console.log("🚀 ~ Navigation ~ sessionUser:", sessionUser)
 
   return (
     <header className='header-container'>
