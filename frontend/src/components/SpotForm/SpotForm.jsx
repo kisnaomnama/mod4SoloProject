@@ -107,7 +107,7 @@ const SpotForm = ({ spot, formType }) => {
         if (checkErrors()) {
             const newSpot = { country, address, city, state, lat, lng, description, name, price };
             if (formType === "create") {
-                const response = await dispatch(createANewSpot(newSpot));
+                const response = await dispatch(createNewSpot(newSpot));
                 if (response.ok) {
                     const data = await response.json();
                     const spotId = data.id;
@@ -119,7 +119,7 @@ const SpotForm = ({ spot, formType }) => {
                     navigate(`/spots/${spotId}`);
                 }
             } else {
-                const response = await dispatch(editASpot(spot.id, newSpot))
+                const response = await dispatch(updateSpot(spot.id, newSpot))
                 if (response.ok) {
                     navigate(`/spots/${spot.id}`);
                 }
