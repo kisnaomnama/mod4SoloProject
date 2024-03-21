@@ -1,0 +1,77 @@
+.delete-modal {
+    text-align: center;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.delete-button {
+    margin: 10px;
+}
+
+.yes-delete {
+    border-radius: 10px;
+    background-color: red;
+}
+
+.yes-delete:hover{
+    box-shadow: 3px 3px 3px black;
+}
+
+.no-delete:hover{
+    box-shadow: 3px 3px 3px black;
+}
+
+.no-delete {
+    border-radius: 10px;
+    background-color: darkgray;
+}
+
+.spot-card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 20px;
+    content: fit-content;
+    grid-auto-flow: rows;
+    
+}
+
+.manage-spot-buttons {
+    display: inline-flex;
+    align-items: flex-start;
+    width: 90%;
+}
+
+.manage-spot-tile {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-a-new-spot-button{
+    background-color: var(--lightBlue);
+    color: white;
+    border-radius: 10px;
+    grid-area: reserve;
+    margin-bottom: 20px;
+    width: auto;
+    height: auto;
+}
+
+.create-a-new-spot-button:hover{
+    box-shadow: 6px 6px 6px var(--darkBlue);
+  }
+
+.manage-spot-button {
+    background-color: var(--lightBlue);
+      color: white;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      margin-left: 10px;
+      width: auto;
+      height: auto;
+      padding: 5px 10px 5px;
+  }
+
+.manage-spot-button:hover{
+    box-shadow: 6px 6px 6px var(--darkBlue);
+}

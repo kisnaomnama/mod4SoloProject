@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
-import LoginFormPage from './components/LoginFormPage';
-import SignupFormPage from './components/SignupFormPage';
-import Navigation from './components/Navigation/Navigation-bonus';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+// import LoginFormPage from './components/LoginFormPage';
+// import SignupFormPage from './components/SignupFormPage';
+import Navigation from './components/Navigation';
 import * as sessionActions from './store/session';
-import { Modal } from './context/Modal';
-
+import SpotPage from './components/SpotPage';
+import EditSpot from './components/EditSpot';
 import LandingPage from './components/LandingPage';
-import SpotDetailsPage from './components/SpotDetailsPage';
-import CreateSpot from './components/CreateSpot';
 import ManageSpots from './components/ManageSpots';
-import UpdateSpot from './components/UpdateSpot';
+import CreateASpotForm from './components/CreateSpotForm';
+import ManageReviewsPage from './components/ManageReviews';
 
-function Layout() {
+function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -24,47 +23,21 @@ function Layout() {
   }, [dispatch]);
 
   return (
-    <>
-      <Modal/>
+    isLoaded && (<>
+      <BrowserRouter>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Outlet />}
-    </>
+      <Routes>
+          <Route path='/' element={<LandingPage/>}/>
+          <Route path='/spots/:spotId' element={<SpotPage />}/>
+          <Route path='/spots/:spotId/edit' element={<EditSpot />}/>
+          <Route path='/spots/new' element={<CreateASpotForm/>}/>
+          <Route path='/spots/current' element={<ManageSpots/>}/>
+          <Route path='/reviews/current' element={<ManageReviewsPage/>}/>
+      </Routes>
+      </BrowserRouter>
+    </>)
   );
 }
 
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      {
-        path: '*',
-        element: <h2>Page Not Found</h2>
-      },
-      {
-        path: '/',
-        element: <LandingPage />
-      },
-      {
-        element: <SpotDetailsPage />,
-        path: 'spots/:spotId'
-      },
-      {
-        element: <CreateSpot />,
-        path: 'spots/new'
-      },
-      {
-        element: <ManageSpots />,
-        path: 'spots/current'
-      },
-      {
-        element: <UpdateSpot />,
-        path: 'spots/:spotId/edit'
-      }
-    ]
-  },
-]);
-function App() {
-  return <RouterProvider router={router} />;
-}
 
 export default App;

@@ -20,6 +20,7 @@ module.exports = {
   ],
   ignorePatterns: ["dist", "node_modules"],
   rules: {
+    "no-unused-vars": "warn",
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },

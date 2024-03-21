@@ -1,0 +1,47 @@
+.new-spot-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.new-spot-section {
+    padding-bottom: 10px;
+    width: 50%;
+}
+
+.new-spot-form {
+    width: 40%;
+}
+
+.spot-form-error {
+    padding-left: 10px;
+    font-style: italic;
+}
+
+.double-input-field {
+    display: inline-grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-column-gap: 10px;
+    align-content: space-evenly;
+    grid-auto-flow: column;
+    width: 100%;
+}
+
+.row-header {
+    display: flex;
+}
+
+.large-input-field {
+    width: 100%;
+    height: 200px;
+    resize: none;
+}
+
+.single-input-field {
+    width: 95%;    
+}
+
+  .spot-page-button:hover {
+    box-shadow: 6px 6px 6px var(--darkBlue);
+  }

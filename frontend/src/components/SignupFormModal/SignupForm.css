@@ -1,0 +1,42 @@
+.sign-up-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign-up-container-entry {
+    display: flex;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.sign-up-error {
+    color: red;
+}
+
+.sign-up-button-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-button {
+    display: flex;
+    align-items: center;
+    background-color: var(--lightBlue);
+    color: white;
+    border-radius: 10px;
+}
+
+.sign-up-button-disabled {
+    display: flex;
+    align-items: center;
+    background-color: lightgray;
+    color: darkgray;
+    border-radius: 10px;
+}
+
+.sign-up-button:hover{
+    box-shadow: 6px 6px 6px var(--darkBlue);
+    cursor: pointer;
+}

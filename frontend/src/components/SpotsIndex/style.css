@@ -1,0 +1,255 @@
+
+@media (max-width: 969px) {
+    .spot-tile-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0px;
+    }
+}
+
+@media (min-width: 970px) and (max-width: 1409px){
+    .spot-tile-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0px;
+    }
+}
+
+@media (min-width: 1410px) and (max-width: 1869px){
+    .spot-tile-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0px;
+    }
+}
+
+@media (min-width: 1870px){
+    .spot-tile-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 0px;
+    }
+}
+
+.spot-tile {
+    padding: 10px;
+    border: 2px solid var(--darkBlue);
+    border-radius: 20px;
+
+    margin: 10px;
+}
+
+.spot-tile-image {
+    width: 417px;
+
+    border-radius: 20px;
+    height: 278px;
+    overflow: hidden;
+    order: -1;
+}
+
+.spot-tile-name {
+    font-size: large;
+    font-weight: bold;
+    border: 2px black;
+}
+
+
+
+
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--darkBlue);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip .tooltip-text::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--darkBlue);
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+}
+
+
+.spot-tile-stars {
+    display: inline-flex;
+    align-items: center;
+    justify-items: end;
+    color: var(--darkBlue)
+}
+
+.spot-tile-price {
+    color: var(--darkBlue);
+}
+
+
+
+.spot-show-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-self: stretch;
+    height: fit-content;
+    gap: 5px;
+    grid-template-areas:
+        "big-pic big-pic small-pic-1 small-pic-2"
+        "big-pic big-pic small-pic-3 small-pic-4"
+    ;
+    margin-bottom: 30px;
+}
+
+.spot-show-image {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border-radius: 60px;
+    /* object-fit: fill; */
+    /* padding: 10px; */
+}
+
+.spot-show-image-0 {
+    /* width: 769px;
+    height: 513px; */
+    grid-area: big-pic;
+    border: none;
+    float: none;
+    object-fit: fill;
+}
+
+.spot-show-image-1 {
+    grid-area: small-pic-1;
+    /* width: fit-content;
+    height: 257px; */
+    border: none;
+    float: none;
+    object-fit: contain;
+}
+
+.spot-show-image-2 {
+    grid-area: small-pic-2;
+    /* width: fit-content;
+    height: 257px; */
+    border: none;
+    float: none;
+    object-fit: contain;
+}
+
+.spot-show-image-3 {
+    grid-area: small-pic-3;
+    /* width: fit-content;
+    height: 257px; */
+    border: none;
+    float: none;
+    object-fit: contain;
+}
+
+.spot-show-image-4 {
+    grid-area: small-pic-4;
+    /* width: fit-content;
+    height: 257px; */
+    border: none;
+    float: none;
+    object-fit: contain;
+}
+
+.spot-show-info {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    padding-bottom: 25px;
+    border-bottom: 2px solid var(--darkBlue);
+}
+
+.spot-show-description {
+    margin: 20px;
+}
+
+.spot-show-reserve-grouping {
+    border: 4px solid var(--darkBlue);
+    color: var(--lightBlue);
+    border-radius: 30px;
+    list-style-type: none;
+    box-shadow: 0px 0px 40px 3px var(--lightBlue);
+    align-items: center;
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr .2fr 1fr;
+    gap: 0px 0px;
+    padding: 10px;
+    grid-template-areas:
+        "price reviews reviews"
+        ". . ."
+        "reserve reserve reserve";
+    /* grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 0.5fr 1fr;
+    grid-template-areas:
+    ". . ."
+        "price . reviews"
+        ". . ."
+        "reserve reserve reserve"
+        ". . ."; */
+
+}
+
+
+
+.review-card {
+    grid-area: reviews;
+    display: flex;
+    flex: content;
+    flex-wrap: wrap;
+    justify-content: right;
+}
+
+.review-card-price {
+    grid-area: price;
+    justify-items: center;
+    align-items: center;
+    
+}
+
+.spot-show-reserve-button {
+    background-color: var(--lightBlue);
+    color: lightgrey;
+    border-radius: 10px;
+    grid-area: reserve;
+    margin-bottom: 20px;
+    height: 70%;
+    font-size: large;
+    font-weight: bold;
+}
+
+.spot-show-reserve-button:hover {
+   box-shadow: 6px 6px 6px var(--darkBlue);
+}
+
+.spot-tile-info-first-line {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    color: var(--darkBlue)
+}

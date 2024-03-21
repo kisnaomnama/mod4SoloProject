@@ -1,0 +1,48 @@
+.log-in-modal {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.log-in-modal-inputs {
+    padding: 2px;
+}
+
+.log-in-modal-button-disabled {
+    padding: 5px;
+    width: 100%;
+    background-color: lightgray;
+    color: darkgray;
+    border-radius: 10px;
+    grid-area: reserve;
+    margin-bottom: 20px;
+}
+
+
+.log-in-modal-button {
+    cursor: pointer;
+    padding: 5px;
+    width: 100%;
+    background-color: var(--lightBlue);
+    color: lightgrey;
+    border-radius: 10px;
+    grid-area: reserve;
+    margin-bottom: 20px;
+}
+
+.log-in-modal-button:hover {
+    box-shadow: 0px 0px 20px 3px var(--lightBlue);
+}
+
+
+.log-in-modal-error {
+    color: red;
+    font-style: italic;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    width: 200px;
+}
+
