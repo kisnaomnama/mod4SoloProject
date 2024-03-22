@@ -10,11 +10,12 @@
 }
 
 .new-spot-form {
-    width: 40%;
+    width: 50%;
 }
 
 .spot-form-error {
     padding-left: 10px;
+    color: red;
     font-style: italic;
 }
 
@@ -42,6 +43,14 @@
     width: 95%;    
 }
 
+.spot-page-button {
+    width: 200px;
+    height: 50px;
+    font-size: large;
+      border-radius: 10px;
+      margin: 20px;
+  }
+
   .spot-page-button:hover {
-    box-shadow: 6px 6px 6px var(--darkBlue);
+    box-shadow: skyblue;
   }

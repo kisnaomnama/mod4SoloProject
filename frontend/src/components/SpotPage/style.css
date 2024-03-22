@@ -1,0 +1,13 @@
+.spot-page-title {
+    font-size: x-large;
+}
+
+.reviews-text-layout {
+    display: inline-flex;
+    margin: 10px;
+    gap: 10px;
+}
+
+.reviews-under-description {
+    font-size: large;
+}

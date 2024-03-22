@@ -13,7 +13,7 @@ function ProfileButton({ user }) {
   const ulRef = useRef();
   const navigate = useNavigate();
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    e.stopPropagation(); 
     setShowMenu(!showMenu);
   };
 

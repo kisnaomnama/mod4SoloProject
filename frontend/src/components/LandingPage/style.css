@@ -1,0 +1,16 @@
+.landing-page {
+    margin: 10px 90px;
+    background-color: aliceblue;
+    padding: 0 10px;
+}
+
+.spot-tile-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px; 
+}
+
+.tooltip{
+    width: 100%;
+    border-radius: 10px;
+}

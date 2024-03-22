@@ -1,11 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import OpenModalButton from '../OpenModalButton';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
-import './Navigation.css';
-import navicon from './navicon.png'
+import './style.css';
+import navicon from './favicon.png'
 
 
 function Navigation({ isLoaded }) {
@@ -21,7 +18,6 @@ function Navigation({ isLoaded }) {
           <NavLink to='/spots/new' className="create-new-spot hover-shadow">Create a New Spot</NavLink>
         </li>
       </>
-
     ) : (
       <>
         <ProfileButton />
@@ -29,15 +25,17 @@ function Navigation({ isLoaded }) {
     );
 
   return (
-    <ul>
-      <div className="nav-bar">
-        <NavLink className="home-icon-assembly" to="/"><img className="home-icon" src={navicon} /></NavLink>
-        <li className="nav-bar right-side">
-          {isLoaded && sessionLinks}
-        </li>
 
+    <div className="nav-bar">
+      <div className="nav-bar left-side">
+        <NavLink className="home-icon-assembly" to="/"><img className="home-icon" src={navicon} /><h2>shivabnb</h2></NavLink>
       </div>
-    </ul>
+
+      <div className="nav-bar right-side">
+        {isLoaded && sessionLinks}
+      </div>
+    </div>
+
   );
 }
 

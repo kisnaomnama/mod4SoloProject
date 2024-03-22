@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
-
 const IndexItem = ({spot}) => {
     const navigate = useNavigate();
+    // console.log("Spot===========>", spot)
 
     const clickOnSpot = () => {
         const url = `/spots/${spot.id}`;
@@ -23,7 +23,6 @@ const IndexItem = ({spot}) => {
                 </div>
                 <p><span className='spot-tile-price'>${spot.price} per night </span></p>
             </div>
-
         </div>
     </>)
 }
