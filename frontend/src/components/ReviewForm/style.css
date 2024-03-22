@@ -1,0 +1,50 @@
+.review-box-form-textentry {
+    resize: none;
+    height: 100px;
+}
+
+.review-box-form {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.stars-rating {
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.delete-yes {
+    display: flex;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+.delete-yes:hover{
+    box-shadow: 6px 6px 6px black;
+}
+
+.delete-no {
+    background-color: darkgray;
+    border-radius: 30px;
+}
+
+.delete-no:hover{
+    box-shadow: 6px 6px 6px black;
+}
+
+.delete-popup {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.delete-popup-buttons {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}

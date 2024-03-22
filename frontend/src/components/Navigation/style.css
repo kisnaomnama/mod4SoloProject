@@ -1,5 +1,5 @@
 *{
-  color: navy
+  color: black
 }
 
 .right-side {
@@ -37,16 +37,17 @@
 
 
 .profile-dropdown {
-  border-radius: 30px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  right: 20px;
+  right: 10px;
   padding: 10px;
   margin: 10px;
   list-style-type: none;
   position: absolute;
   z-index: 1;
   gap: 10px;
+  background-color: aliceblue;
 }
 
 .profile-dropdown-button {
@@ -58,12 +59,11 @@
 }
 
 .profile-dropdown-button:hover{
-  box-shadow: 6px 6px 6px var(--darkBlue);
   color: black
 }
 
 .profile-dropdown-lineitems {
-  border-bottom: 2px solid var(--darkBlue);
+  border-bottom: 2px solid black;
 }
 
 .hidden {
@@ -85,6 +85,7 @@
   height: 80px;
   background-color: #EAECEE;
   align-items: center;
+  padding: 0 10px;
 }
 
 .log-in-menu {

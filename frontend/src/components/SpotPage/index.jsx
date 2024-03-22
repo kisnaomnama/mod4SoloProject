@@ -11,8 +11,6 @@ const SpotPage = () => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const spot = useSelector(state => state.spots.singleSpot);
-    // console.log("Spot===========>", spot.avgRating)
-
     const {
         avgRating,
         city,

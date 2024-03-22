@@ -20,6 +20,8 @@ const ManageSpots = () => {
         navigate('/spots/new')
     }
 
+   
+
     return (user &&
         <div className="manage-spots-page">
             <div className="manage-spot-title-section">
