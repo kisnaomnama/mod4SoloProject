@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router";
 import IndexItem from "../SpotsIndex/IndexItem";
 import OpenModalButton from "../OpenModalButton";
-import DeleteSpot from "./deletespot";
+import DeleteSpot from './Deletespot'
 
 const SingleSpotManage = ({ spot }) => {
     const navigate = useNavigate();
-
 
     const updateButton = () => {
         navigate(`/spots/${spot.id}/edit`)

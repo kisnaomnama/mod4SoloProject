@@ -29,7 +29,7 @@ export const createReview = (spotId, review) => async () => {
     return request;
 }
 
-export const populateReviewsInAGivenSpot = (spotId) => async (dispatch) => {
+export const populateReviewsOfSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
     if(response.ok){
         const data = await response.json();

@@ -1,7 +1,7 @@
 
 .spot-tile {
     padding: 10px;
-    border: 2px solid var(--darkBlue);
+    border: 2px solid black;
     border-radius: 10px;
 }
 
@@ -65,7 +65,6 @@
 .spot-tile-price {
 
 }
-
 
 .spot-show-images {
     display: grid;
@@ -177,7 +176,7 @@
 }
 
 .spot-show-reserve-button:hover {
-   box-shadow: 6px 6px 6px var(--darkBlue);
+  
 }
 
 .spot-tile-info-first-line {
