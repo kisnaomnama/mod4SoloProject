@@ -23,7 +23,6 @@
 
 .no-delete {
     border-radius: 10px;
-    background-color: darkgray;
 }
 
 .spot-card-container {
@@ -48,8 +47,6 @@
 }
 
 .create-a-new-spot-button{
-    background-color: var(--lightBlue);
-    color: white;
     border-radius: 10px;
     grid-area: reserve;
     margin-bottom: 20px;
@@ -58,12 +55,10 @@
 }
 
 .create-a-new-spot-button:hover{
-    box-shadow: 6px 6px 6px var(--darkBlue);
+    box-shadow: 2px 2px 2px navy
   }
 
 .manage-spot-button {
-    background-color: var(--lightBlue);
-      color: white;
       border-radius: 10px;
       margin-bottom: 20px;
       margin-left: 10px;
@@ -73,5 +68,4 @@
   }
 
 .manage-spot-button:hover{
-    box-shadow: 6px 6px 6px var(--darkBlue);
 }

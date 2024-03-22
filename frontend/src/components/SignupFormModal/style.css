@@ -23,16 +23,12 @@
 .sign-up-button {
     display: flex;
     align-items: center;
-    background-color: var(--lightBlue);
-    color: white;
     border-radius: 10px;
 }
 
 .sign-up-button-disabled {
     display: flex;
     align-items: center;
-    background-color: lightgray;
-    color: darkgray;
     border-radius: 10px;
 }
 

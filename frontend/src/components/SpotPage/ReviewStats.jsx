@@ -11,7 +11,6 @@ const ReviewStats = ({avgStarRating, numReviews}) => {
         <p>{numReviews} {reviewWord}</p>
         </div>)
     } 
-  
 }
 
 export default ReviewStats;

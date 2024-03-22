@@ -32,10 +32,7 @@ function LoginFormModal() {
     if(response.ok){
       closeModal();
     }
-      
   }
-
-
 
   useEffect(() => {
     if(credential.length < 4 || password.length < 6){

@@ -3,8 +3,6 @@ import IndexItem from "../SpotsIndex/IndexItem";
 import OpenModalButton from "../OpenModalButton";
 import DeleteSpot from "./deletespot";
 
-
-
 const SingleSpotManage = ({ spot }) => {
     const navigate = useNavigate();
 

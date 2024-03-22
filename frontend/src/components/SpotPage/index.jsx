@@ -4,15 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSpotById } from '../../store/spots';
 import ReviewStats from './ReviewStats';
 import ReviewsIndex from '../ReviewsIndex/ReviewsIndex';
-import './spotpage.css'
+import './style.css'
 
 const SpotPage = () => {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const spot = useSelector(state => state.spots.singleSpot);
+    // console.log("Spot===========>", spot.avgRating)
+
     const {
-        avgStarRating,
+        avgRating,
         city,
         country,
         description,
@@ -52,7 +54,7 @@ const SpotPage = () => {
                 <p><span className='review-card-price'>${price} night</span></p>
                 <div className='review-card'>
                     <ReviewStats
-                        avgStarRating={avgStarRating}
+                        avgStarRating={avgRating}
                         numReviews={numReviews}
                     />
                 </div>
@@ -61,14 +63,13 @@ const SpotPage = () => {
         </div>
         <div className="reviews-under-description">
             <ReviewStats
-                avgStarRating={avgStarRating}
+                avgStarRating={avgRating}
                 numReviews={numReviews}
             />
 
         </div>
         <div>
             <ReviewsIndex spot={spot} spotId={spotId} ownerId={ownerId} numReviews={numReviews} />
-
         </div>
     </div>
     )
