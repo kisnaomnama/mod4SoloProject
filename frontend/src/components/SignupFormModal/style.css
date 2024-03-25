@@ -23,16 +23,15 @@
 .sign-up-button {
     display: flex;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .sign-up-button-disabled {
     display: flex;
     align-items: center;
-    border-radius: 10px;
-}
-
-.sign-up-button:hover{
-    box-shadow: 6px 6px 6px var(--darkBlue);
-    cursor: pointer;
+    background-color: lightgray;
+    color: darkgray;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }

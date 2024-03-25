@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllReviewsOfUser } from "../../store/review";
+import { getAllReviewsOfUser, deleteReview } from "../../store/review";
 import Review from "../ReviewsIndex/Review";
+import DeleteReviewForm from "../ReviewForm/DeleteReviewForm";
 import './style.css'
 
 

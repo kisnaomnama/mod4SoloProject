@@ -62,9 +62,9 @@
 .spot-show-images {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: auto auto; /* Use auto for rows to adjust height dynamically */
+    grid-template-rows: auto auto; 
     height: 400px;
-    gap: 10px; /* Default gap size */
+    gap: 10px; 
     grid-template-areas:
         "big-pic big-pic small-pic-1 small-pic-2"
         "big-pic big-pic small-pic-3 small-pic-4";
@@ -96,7 +96,7 @@
 
 .spot-show-info {
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 3fr 1fr;
     border-bottom: 2px solid lightslategray;
 }
 

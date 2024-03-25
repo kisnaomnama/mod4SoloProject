@@ -5,7 +5,6 @@ import EditReviewForm from "../ReviewForm/EditReviewForm";
 import DeleteReviewForm from "../ReviewForm/DeleteReviewForm";
 import './style.css'
 
-
 const Review = ({ review, spotId, spotName, formType}) => {
     const firstName = review.User.firstName;
     const year = review.createdAt.split("T")[0].split("-")[0]

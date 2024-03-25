@@ -65,7 +65,7 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Hello {user.username}</li>
+            <li>Hello, {user.username}</li>
             <li className="profile-dropdown-lineitems">{user.email}</li>
             <li><button onClick={manageSpots} className="cursor profile-dropdown-button">Manage Spots</button></li>
             <li><button onClick={manageReviews} className="cursor profile-dropdown-button">Manage Reviews</button></li>

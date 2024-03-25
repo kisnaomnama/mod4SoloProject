@@ -5,31 +5,32 @@
     align-items: center;
 }
 
+form{
+    padding: 0 10px;
+    text-align: center;
+}
+
 .log-in-modal-inputs {
-    padding: 2px;
+    width: 100%;
+    border-radius: 5px;
 }
 
 .log-in-modal-button-disabled {
-    padding: 5px;
-    width: 100%;
+    width: 50%;
     background-color: lightgray;
     color: darkgray;
-    border-radius: 10px;
+    border-radius: 5px;
     grid-area: reserve;
-    margin-bottom: 20px;
+    margin: 5px 0px;
 }
 
 
 .log-in-modal-button {
     cursor: pointer;
-    padding: 5px;
-    width: 100%;
-    border-radius: 10px;
+    width: 80%;
+    border-radius: 5px;
     grid-area: reserve;
-    margin-bottom: 20px;
-}
-
-.log-in-modal-button:hover {
+    margin: 5px 0px;
 }
 
 .log-in-modal-error {

@@ -4,6 +4,9 @@ import { deleteReview, populateReviewsOfSpot} from "../../store/review";
 import { useDispatch } from "react-redux";
 
 export default function DeleteReviewForm ({review, spotId, updateType}) {
+    // console.log("SpotID=======> ", spotId)
+    // console.log("reviews ====>", review)
+
     const { closeModal } = useModal();
     const dispatch = useDispatch();
 
@@ -11,11 +14,12 @@ export default function DeleteReviewForm ({review, spotId, updateType}) {
         const response = await dispatch(deleteReview(review.id));
         if(response.ok){
             if(updateType === "spot"){
-                await dispatch(populateReviewsOfSpot(spotId));
-                await dispatch(getSpotById(spotId))
+                await dispatch(populateReviewsOfSpot(review.spotId));
+                await dispatch(getSpotById(review.spotId))
             }
             closeModal();
         }
+
     }
 
     const noButtonClick = () => closeModal();
