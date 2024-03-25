@@ -71,7 +71,8 @@ function LoginFormModal() {
         {/* {errors && <p className="log-in-modal-error">{errors}</p>} */}
         
         <button type="submit" disabled={buttonDisable} className={buttonClass}>Log In</button>
-        <button type="demoUser" className="log-in-modal-button cursor" onClick={demoUserLogIn}>Log In as Demo User</button>
+        
+        <p className="log-in-modal-button cursor" onClick={demoUserLogIn}>Demo User</p>
       </form>
     </div>
   );

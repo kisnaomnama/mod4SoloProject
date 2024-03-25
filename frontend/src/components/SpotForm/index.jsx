@@ -244,23 +244,24 @@ const SpotForm = ({ spot, formType }) => {
                 <h2>Set a base price for your spot</h2>
                 <h3>Competitive pricing can help your listing stand out and rank higher in search results.</h3>
 
-                $ <input
-                    className="single-input-field"
-                    type="number"
-                    value={price}
-                    placeholder="Price per night (USD)"
-                    onChange={(e) => setPrice(e.target.value)}
-                />
-                {<p className="spot-form-error">{errors.price}</p>}
-                <br />
+                <div className="price-input-wrapper">
+                    <span>$</span>
+                    <input
+                        className="single-input-field"
+                        type="number"
+                        value={price}
+                        placeholder="Price per night (USD)"
+                        onChange={(e) => setPrice(e.target.value)}
+                    />
+                </div>
 
             </span>
             {formType === "create" &&
                 (<div className="new-spot-section">
-                <div className="new-spot-form-header">
-                    <h2>Liven up your spot with photos</h2>
-                    <h3>Submit a link to at least one photo to publish your spot.</h3>
-                </div>
+                    <div className="new-spot-form-header">
+                        <h2>Liven up your spot with photos</h2>
+                        <h3>Submit a link to at least one photo to publish your spot.</h3>
+                    </div>
                     <input
                         className="single-input-field"
                         type="text"
@@ -306,8 +307,8 @@ const SpotForm = ({ spot, formType }) => {
                         onChange={(e) => setImg4(e.target.value)}
                     />
                     {<p className="spot-form-error">{errors.img4}</p>}
-                    <br /> 
-            </div>)}
+                    <br />
+                </div>)}
             <button className="spot-page-button cursor" onClick={onSubmit}>{buttonText}</button>
         </form>
     )

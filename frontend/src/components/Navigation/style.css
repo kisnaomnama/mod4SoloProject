@@ -3,9 +3,9 @@
 }
 
 .hover-shadow:hover {
-  box-shadow: 0 0 10px darkgray;
-  border-radius: 10px;
-  padding: 5px 20px;
+  text-decoration: underline;
+  font-weight: bold;
+  
 }
 
 .right-side {
@@ -86,6 +86,7 @@
 
 .create-new-spot {
   text-decoration: none;
+  color: navy;
 }
 
 .nav-bar {

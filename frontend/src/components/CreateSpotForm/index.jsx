@@ -1,4 +1,5 @@
 import SpotForm from "../SpotForm";
+import './style.css'
 
 const CreateASpotForm = () => {
     const spot = {

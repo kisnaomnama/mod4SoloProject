@@ -33,6 +33,20 @@ form{
     margin: 5px 0px;
 }
 
+.log-in-modal-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+    color: navy;
+  }
+  
+  .log-in-modal-button:hover {
+    font-weight: bold;
+  }
+
+
 .log-in-modal-error {
     color: red;
     font-style: italic;

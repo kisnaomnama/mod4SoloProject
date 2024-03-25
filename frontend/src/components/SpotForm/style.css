@@ -4,11 +4,10 @@
     align-items: center;
     margin: 5px 90px;
     background-color: var(--lightGrey);
-    padding: 10px 10px;
 }
 
-form{
-border: 2px solid black;
+h2, h3, h1{
+    text-align: left;
 }
 
 .new-spot-section {
@@ -16,6 +15,9 @@ border: 2px solid black;
     width: 50%;
 }
 
+.new-spot-form-header{
+    text-align: left;
+}
 .new-spot-form {
     width: 50%;
 }
@@ -58,6 +60,18 @@ border: 2px solid black;
       margin: 20px;
   }
 
-  .spot-page-button:hover {
-    box-shadow: skyblue;
-  }
+.new-spot-section {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid var(--darkBlue);
+    width: 50%;
+}
+
+.price-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.price-input-wrapper span {
+    margin-right: 5px; 
+}

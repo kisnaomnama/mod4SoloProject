@@ -36,7 +36,7 @@ const SpotPage = () => {
 
         <div className='spot-title-section'>
             <h2 className="spot-page-title">{name}</h2>
-            <p>{city}, {state}, {country}</p>
+            <h3>{city}, {state}, {country}</h3>
         </div>
 
         <div className='spot-show-images'>
