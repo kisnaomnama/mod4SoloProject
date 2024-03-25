@@ -34,14 +34,18 @@ const SpotPage = () => {
 
     return (isLoaded && <div className='spot-page'>
 
-        <h1 className="spot-page-title">{name}</h1>
-        <p>{city}, {state}, {country}</p>
+        <div className='spot-title-section'>
+            <h2 className="spot-page-title">{name}</h2>
+            <p>{city}, {state}, {country}</p>
+        </div>
+
         <div className='spot-show-images'>
             {spot.SpotImages.map((image, id) => {
                 const imageClassName = image.preview ? `spot-show-image spot-show-preview spot-show-image-${id}` : "spot-show-image";
                 return (<img className={imageClassName} key={image.url} src={image.url} alt={image.url} />)
             })}
         </div>
+
         <div className='spot-show-info'>
             <div className='spot-show-description'>
                 <h3>Hosted by {Owner.firstName} {Owner.lastName} </h3>
@@ -64,7 +68,6 @@ const SpotPage = () => {
                 avgStarRating={avgRating}
                 numReviews={numReviews}
             />
-
         </div>
         <div>
             <ReviewsIndex spot={spot} spotId={spotId} ownerId={ownerId} numReviews={numReviews} />

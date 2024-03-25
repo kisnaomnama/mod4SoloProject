@@ -2,11 +2,16 @@
     resize: none;
     height: 100px;
 }
+.review-box{
+    align-items: center;
+    padding: 5px;
+}
 
 .review-box-form {
     justify-content: center;
     display: flex;
     flex-direction: column;
+    padding: 5px;
 }
 
 .stars-rating {
@@ -20,10 +25,7 @@
     border-radius: 30px;
     margin-bottom: 10px;
     width: fit-content;
-}
-
-.delete-yes:hover{
-    box-shadow: 6px 6px 6px black;
+    background-color: red;
 }
 
 .delete-no {
@@ -31,9 +33,6 @@
     border-radius: 30px;
 }
 
-.delete-no:hover{
-    box-shadow: 6px 6px 6px black;
-}
 
 .delete-popup {
     align-items: center;

@@ -1,9 +1,16 @@
+.review-content{
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
 .review-content-month {
     gap: 10px;
 }
 
 .review-content {
-    margin-bottom: 50px;
+    margin: 10px 0 5px 0;
+    padding: 0 10px;
+  
 }
 
 .review-button-update {
@@ -11,18 +18,10 @@
       margin: 5px;
   }
   
-  .review-button-update:hover{
-    box-shadow: 6px 6px 6px navy;
-  }
-
   .post-your-review-button {
     border-radius: 10px;
     margin-bottom: 20px;
     width: auto;
-  }
-
-  .post-your-review-button:hover{
-    box-shadow: 6px 6px 6px navy;
   }
 
   .post-your-review-button-disabled{

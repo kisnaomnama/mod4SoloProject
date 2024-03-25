@@ -20,10 +20,9 @@ module.exports = {
         country: 'USA',
         lat: 47.6062,
         lng: -122.3321,
-        name: 'Cozy Cabin',
-        description: 'A charming cabin in the woods near the lake',
+        name: 'UFO Guadalupe',
+        description: 'Relax and unwind in this unique UFO. Feel close to nature with maximum comfort.',
         price: 120.00
-
       },
       {
         ownerId: 2,
@@ -33,8 +32,8 @@ module.exports = {
         country: 'USA',
         lat: 45.5051,
         lng: -122.6750,
-        name: 'Modern Loft',
-        description: 'A modern loft apartment in the downtown area',
+        name: 'Spaceship Destination',
+        description: 'Explore Spaceship amenities include a wet bar',
         price: 180.00
 
       },
@@ -46,8 +45,8 @@ module.exports = {
         country: 'USA',
         lat: 37.7749,
         lng: -122.4194,
-        name: 'Luxury Penthouse',
-        description: 'A luxurious penthouse with stunning city views',
+        name: 'The Mill',
+        description: 'Built in the 19th century, view over the sea and surroundings on the top floor',
         price: 300.00
       },
       {
@@ -58,8 +57,8 @@ module.exports = {
         country: 'USA',
         lat: 37.7749,
         lng: -20.4194,
-        name: 'Palace',
-        description: 'Stunning city views',
+        name: 'Dome Sweet Dome',
+        description: 'Renovated & stylishly redecorated in 2019, this true-to-name Geodesic Dome ',
         price: 450.00
       }, 
        {
@@ -73,7 +72,47 @@ module.exports = {
         name: 'Manson Kone',
         description: 'Mordern apartment',
         price: 1000.00
-      }
+      },
+      {
+        ownerId: 2,
+        address: '100 Washington Street',
+        city: 'Miami',
+        state: 'FL',
+        country: 'USA',
+        lat: 30.6062,
+        lng: -120.3321,
+        name: 'Caboose in the redwoods',
+        description: 'This rustic caboose is just 10 minutes from Cupertino and downtown Saratoga',
+        price: 120.00
+      },
+      {
+        ownerId: 4,
+        address: '100 Washington Street',
+        city: 'Miami',
+        state: 'FL',
+        country: 'USA',
+        lat: 30.6062,
+        lng: -120.3321,
+        name: 'Bonita Domes and Pool',
+        description: 'Earthen home in Joshua Tree',
+        price: 120.00
+      },
+
+      {
+        ownerId: 1,
+        address: '2000 Oak Street',
+        city: 'New York',
+        state: 'WA',
+        country: 'USA',
+        lat: 40.6062,
+        lng: -120.3321,
+        name: 'Fat Barrel',
+        description: 'The one & only, unique luxury lakeside Fat Barrel',
+        price: 120.00
+      },
+
+
+
     ];
 
     await Spot.bulkCreate(spotsData, { validate:true });

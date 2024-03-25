@@ -49,11 +49,10 @@ const Review = ({ review, spotId, spotName, formType}) => {
     return (
         <>
         <div className="review-content">
-            {formType !== "manageReview" && <h2>{firstName}</h2>}
-            {formType === "manageReview" && <h2>{review.Spot.name}</h2>}
-            <h3 className="review-content-month">{starGenerator({review})}{`${monthConverter[monthMM]} ${year}`}</h3>
-            <h4></h4>
-            <h4>{review.review}</h4>
+            {formType !== "manageReview" && <h3>{firstName}</h3>}
+            {formType === "manageReview" && <h3>{review.Spot.name}</h3>}
+            <p className="review-content-month">{starGenerator({review})}{`${monthConverter[monthMM]} ${year}`}</p>
+            <p>{review.review}</p>
         </div>
         {enableManage && <div className="review-manage-button">
             <OpenModalButton

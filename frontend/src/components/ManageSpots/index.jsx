@@ -20,12 +20,10 @@ const ManageSpots = () => {
         navigate('/spots/new')
     }
 
-   
-
     return (user &&
         <div className="manage-spots-page">
             <div className="manage-spot-title-section">
-                <h2>Manage Spots</h2>
+                <h3 className='manage-spot-header'>Manage Spots</h3>
                 <button className="create-a-new-spot-button cursor" onClick={createANewSpotButton}>Create a New Spot</button>
             </div>
             {isLoaded && (<>

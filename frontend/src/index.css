@@ -5,6 +5,13 @@
 
 :root {
     --darkBlue: navy;
+    --lightGrey: lightGrey;
+    --crimson: #C70039;
+}
+
+
+button:hover{
+    box-shadow: 4px 4px 2px darkgrey;
 }
 
 .cursor {

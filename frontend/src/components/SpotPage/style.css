@@ -1,5 +1,16 @@
-.spot-page-title {
-    font-size: x-large;
+
+.spot-page{
+    margin: 5px 90px;
+    background-color: var(--lightGrey);
+    padding: 10px 10px;
+}
+
+.spot-title-section{
+    text-align: center;
+}
+
+.spot-page-title{
+    text-decoration: underline;
 }
 
 .reviews-text-layout {

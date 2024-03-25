@@ -1,7 +1,7 @@
 .landing-page {
-    margin: 10px 90px;
-    background-color: aliceblue;
-    padding: 0 10px;
+    margin: 5px 90px;
+    background-color: var(--lightGrey);
+    padding: 10px 10px;
 }
 
 .spot-tile-container{

@@ -1,0 +1,17 @@
+
+.manage-reviews-page{
+    margin: 5px 90px;
+    background-color: var(--lightGrey);
+    padding: 10px 10px;
+    height: 100vh; 
+    overflow-y: auto; 
+}
+
+.manage-review-title-section{
+    border-bottom: 2px solid lightslategray;
+    text-align: center;
+}
+
+.manage-review-header{
+text-decoration: underline;
+}

@@ -1,3 +1,21 @@
+.manage-spots-page{
+    margin: 5px 90px;
+    background-color: var(--lightGrey);
+    padding: 10px 10px;
+    height: 100vh; 
+    overflow-y: auto; 
+}
+
+.manage-spot-title-section{
+    border-bottom: 2px solid lightslategray;
+    text-align: center;
+}
+
+
+.manage-spot-header{
+text-decoration: underline;
+}
+
 .delete-modal {
     text-align: center;
     justify-content: space-between;
@@ -49,14 +67,14 @@
 .create-a-new-spot-button{
     border-radius: 10px;
     grid-area: reserve;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: auto;
     height: auto;
 }
 
-.create-a-new-spot-button:hover{
-
-  }
+.spot-tile.cursor{
+    margin-bottom: 10px;
+}
 
 .manage-spot-button {
       border-radius: 10px;
@@ -66,6 +84,3 @@
       height: auto;
       padding: 5px 10px 5px;
   }
-
-.manage-spot-button:hover{
-}

@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 import { getSpotById } from "../../store/spots";
 import { createReview, editReview, getAllReviewsOfUser, populateReviewsOfSpot } from "../../store/review";
 import StarInput from "./StarInput";
+import './style.css'
 
 const ReviewForm = ({review, spotId, formType, updateType}) => {
    
